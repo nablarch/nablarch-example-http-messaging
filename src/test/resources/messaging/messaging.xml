@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+HTTPメッセージング設定用の設定ファイル
+-->
+<component-configuration
+        xmlns="http://tis.co.jp/nablarch/component-configuration"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration ../component-configuration.xsd">
+
+    <!-- テスト用の設定ファイル -->
+    <config-file file="messaging/messaging.config"/>
+
+    <!-- メッセージングプロバイダ定義 -->
+    <component
+            name="messagingProvider"
+            class="nablarch.test.core.messaging.EmbeddedMessagingProvider">
+        <!-- キュー定義 -->
+        <property
+                name="queueNames">
+            <list>
+                <!-- サービス側にある要求受信キューの論理名 -->
+                <value>TEST.REQUEST</value>         <!-- 要求受信キュー -->
+                <value>TEST.REQUEST.POISON</value>  <!-- 要求電文退避キュー -->
+                <value>TEST.RESPONSE</value>        <!-- 応答受信キュー -->
+                <value>TEST.RESPONSE.POISON</value> <!-- 応答電文退避キュー -->
+            </list>
+        </property>
+        <!-- 送信メッセージの有効期間 (テスト用のため消さない。)-->
+        <property name="defaultTimeToLive" value="0"/>
+    </component>
+
+    <!-- データリーダ定義 -->
+    <component name="dataReader" class="nablarch.fw.messaging.reader.FwHeaderReader">
+        <property name="messageReader">
+            <component class="nablarch.fw.messaging.reader.MessageReader">
+                <property name="receiveQueueName" value="TEST.REQUEST" />
+                <property name="readTimeout" value="2000" />
+            </component>
+        </property>
+        <!-- フレームワーク制御ヘッダ項目を構造化用に上書き-->
+        <property name="fwHeaderDefinition" ref="fwHeaderDefinition" />
+    </component>
+
+    <!-- フレームワーク制御ヘッダー定義 -->
+    <component
+            name="fwHeaderDefinition"
+            class="nablarch.fw.messaging.reader.StructuredFwHeaderDefinition">
+    </component>
+
+    <!-- メッセージ応答制御ハンドラの上書き -->
+    <component name="messageReplyHandler" class="nablarch.fw.messaging.handler.MessageReplyHandler">
+        <!-- フレームワーク制御ヘッダ項目を構造化用に上書き-->
+        <property name="fwHeaderDefinition" ref="fwHeaderDefinition" />
+    </component>
+
+    <!-- HTTP通信用クライアント -->
+    <component name="defaultMessageSenderClient" class="nablarch.test.core.messaging.MockMessagingClient">
+    </component>
+
+</component-configuration>

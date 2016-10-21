@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-configuration
+    xmlns="http://tis.co.jp/nablarch/component-configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration  ./component-configuration.xsd">
+
+  <!-- リクエスト単体テストは、HTTPメッセージングをメッセージングに変換して実施する。-->
+
+  <!-- リクエストID抽出設定 -->
+  <component name="requestIdExtractor" class="nablarch.common.util.ShortRequestIdExtractor" />
+
+  <!-- DB設定 -->
+  <import file="nablarch/webui/db-for-webui.xml"/>
+  <!-- データソース及び方言の設定 -->
+  <import file="db.xml"/>
+  <!-- メッセージング関連設定 -->
+  <import file="messaging/messaging.xml" />
+  <!-- ハンドラ設定 -->
+  <import file="messaging/handler.xml" />
+  <!-- ファイルパス設定 -->
+  <import file="file.xml" />
+  <!-- validation 設定 -->
+  <import file="validation.xml"/>
+
+  <!-- ロガーが使用する業務日付のモックを設定する -->
+  <component name="businessDateProvider"
+             class="nablarch.test.FixedBusinessDateProvider">
+    <property name="fixedDate">
+      <map>
+        <entry key="00" value="20160706" />
+      </map>
+    </property>
+    <property name="defaultSegment" value="00" />
+  </component>
+
+  <!-- 初期化が必要なコンポーネント -->
+  <component name="initializer"
+             class="nablarch.core.repository.initialization.BasicApplicationInitializer">
+    <property name="initializeList">
+      <list>
+        <!-- メッセージングプロバイダ -->
+        <component-ref name="messagingProvider" />
+      </list>
+    </property>
+  </component>
+
+  <!-- 本番用のconfigファイルを読み込む -->
+  <config-file file="http-messaging.config" />
+  <config-file file="common.config" />
+
+  <!-- メッセージングテスト用の設定を読み込む -->
+  <component name="duplicateProcessCheckHandler" class="nablarch.test.NopHandler" />
+  <component name ="multiThreadExecutionHandler" class="nablarch.test.NopHandler" />
+  <component name="requestThreadLoopHandler" class="nablarch.test.NopHandler" />
+  <component name="formatterFactory" class="nablarch.core.dataformat.FormatterFactory" />
+
+</component-configuration>

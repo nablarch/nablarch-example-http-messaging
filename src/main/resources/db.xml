@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-configuration
+    xmlns="http://tis.co.jp/nablarch/component-configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration http://tis.co.jp/nablarch/component-configuration">
+
+  <import file="nablarch/core/db/connection-factory-datasource.xml"/>
+
+  <component name="dataSource" class="org.h2.jdbcx.JdbcDataSource">
+    <property name="url" value="${nablarch.db.url}" />
+    <property name="user" value="${nablarch.db.user}" />
+    <property name="password" value="${nablarch.db.password}" />
+  </component>
+
+  <!-- ダイアレクト設定 -->
+  <component name="dialect" class="nablarch.core.db.dialect.H2Dialect"/>
+
+</component-configuration>

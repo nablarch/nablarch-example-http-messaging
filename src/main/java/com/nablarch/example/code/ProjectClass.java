@@ -1,0 +1,52 @@
+package com.nablarch.example.code;
+
+/**
+ * プロジェクト規模を定義したEnumクラス。
+ *
+ * @author Nabu Rakutaro
+ */
+public enum ProjectClass implements CodeEnum {
+    /** SS級 */
+    SS("ss", "SS"),
+    /** S級 */
+    S("s", "S"),
+    /** A級 */
+    A("a", "A"),
+    /** B級 */
+    B("b", "B"),
+    /** C級 */
+    C("c", "C"),
+    /** D級 */
+    D("d", "D");
+
+    /** プロジェクト規模のラベル */
+    private String label;
+    /** プロジェクト規模のコード */
+    private String code;
+
+    /**
+     * コンストラクタ。
+     * @param code コード値
+     * @param label ラベル
+     */
+    ProjectClass(String code, String label) {
+        this.label = label;
+        this.code = code;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getCode() {
+        return code;
+    }
+}

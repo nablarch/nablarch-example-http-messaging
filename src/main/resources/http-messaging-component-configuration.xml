@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component-configuration
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tis.co.jp/nablarch/component-configuration"
+        xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration  /component-configuration.xsd">
+
+    <!-- テーブル定義 -->
+    <import file="nablarch/schema-config.xml" />
+
+    <config-file file="http-messaging.config"/>
+    <config-file file="common.config"/>
+
+    <!-- DB設定 -->
+    <import file="nablarch/webui/db-for-webui.xml"/>
+
+    <!-- データソース及び方言の設定 -->
+    <import file="db.xml"/>
+
+    <!-- validation 設定 -->
+    <import file="validation.xml"/>
+
+    <!-- ファイルパス設定 -->
+    <import file="file.xml" />
+
+    <!-- ハンドラキュー構成 -->
+    <component name="webFrontController" class="nablarch.fw.web.servlet.WebFrontController">
+        <property name="handlerQueue">
+            <list>
+                <!-- グローバルエラーハンドラ -->
+                <component class="nablarch.fw.handler.GlobalErrorHandler"/>
+
+                <!-- HTTPレスポンスハンドラ -->
+                <component class="nablarch.fw.web.handler.HttpResponseHandler"/>
+
+                <!-- スレッドコンテキスト変数管理ハンドラ -->
+                <component-ref name="threadContextHandler"/>
+
+                <!-- HTTPメッセージングエラー制御ハンドラ -->
+                <component class="nablarch.fw.messaging.handler.HttpMessagingErrorHandler">
+                    <property name="defaultPages">
+                        <map>
+                            <entry key="400" value="WEB-INF/400.json" />
+                            <entry key="500" value="WEB-INF/500.json" />
+                        </map>
+                    </property>
+                </component>
+
+                <!-- リクエストディスパッチハンドラ -->
+                <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+                    <property name="immediate" value="false"/>
+                    <property name="basePath" value="/"/>
+                    <property name="basePackage" value="com.nablarch.example.action"/>
+                </component>
+
+                <!-- HTTPメッセージングリクエスト変換ハンドラ -->
+                <component class="nablarch.fw.messaging.handler.HttpMessagingRequestParsingHandler"/>
+
+                <!-- データベース接続管理ハンドラ -->
+                <component-ref name="dbConnectionManagementHandler"/>
+
+                <!-- HTTPメッセージングレスポンス変換ハンドラ -->
+                <component class="nablarch.fw.messaging.handler.HttpMessagingResponseBuildingHandler"/>
+
+                <!-- トランザクション制御ハンドラ -->
+                <component name="transactionHandler" class="nablarch.common.handler.TransactionManagementHandler">
+                    <property name="transactionFactory" ref="transactionFactory"/>
+                </component>
+
+                <!-- HTTPメッセージングレスポンス変換ハンドラ -->
+                <component class="nablarch.fw.messaging.handler.HttpMessagingResponseBuildingHandler"/>
+
+            </list>
+        </property>
+    </component>
+
+    <!-- リクエストIDからfwHeaderを生成するためattributesを追加 -->
+    <component name="threadContextHandler"
+               class="nablarch.common.handler.threadcontext.ThreadContextHandler">
+        <property name="attributes">
+            <list>
+                <!-- リクエストID -->
+                <component class="nablarch.common.handler.threadcontext.RequestIdAttribute"/>
+            </list>
+        </property>
+    </component>
+
+</component-configuration>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ハンドラの設定ファイル
+-->
+<component-configuration
+    xmlns="http://tis.co.jp/nablarch/component-configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration  ../component-configuration.xsd">
+
+  <!-- スレッドコンテキストに保持される共通属性を管理するハンドラ -->
+  <import file="messaging/threadcontext.xml" />
+
+  <!--コミットログ実装-->
+  <component name="commitLogger" class="nablarch.core.log.app.BasicCommitLogger">
+    <property name="interval" value="500" />
+  </component>
+
+  <!-- スレッド実行ハンドラ -->
+  <component name  = "multiThreadExecutionHandler" class = "nablarch.fw.handler.MultiThreadExecutionHandler">
+      <property name="concurrentNumber" value="${threadCount}" />
+      <property name="commitLogger" ref="commitLogger" />
+  </component>
+
+  <!-- リクエストスレッドループハンドラ -->
+  <component name  = "requestThreadLoopHandler" class = "nablarch.fw.handler.RequestThreadLoopHandler" />
+
+  <!-- メッセージ応答制御ハンドラ -->
+  <component name="messageReplyHandler" class="nablarch.fw.messaging.handler.MessageReplyHandler" />
+
+  <!-- ハンドラーキュー構成 -->
+  <list name="handlerQueue">
+
+    <!-- ステータスコードを終了コードに変換するハンドラ -->
+    <component class="nablarch.fw.handler.StatusCodeConvertHandler" />
+
+    <!-- グローバルエラーハンドラ -->
+    <component class="nablarch.fw.handler.GlobalErrorHandler" />
+
+    <!-- スレッドコンテキスト設定ハンドラ -->
+    <component-ref name="threadContextHandler" />
+
+    <!-- スレッド実行ハンドラ -->
+    <component-ref name="multiThreadExecutionHandler" />
+
+    <!-- メッセージコンテキスト管理ハンドラ -->
+    <component class="nablarch.fw.messaging.handler.MessagingContextHandler" />
+
+    <!-- データベース接続ハンドラ -->
+    <component-ref name="dbConnectionManagementHandler" />
+
+    <!-- リクエストスレッドループハンドラ -->
+    <component-ref name="requestThreadLoopHandler" />
+
+    <!-- スレッドコンテキスト設定ハンドラ -->
+    <component-ref name="threadContextHandler" />
+
+    <!-- メッセージ応答制御ハンドラ -->
+    <component-ref name="messageReplyHandler" />
+
+    <!-- データリードハンドラ -->
+    <component class="nablarch.fw.handler.DataReadHandler" />
+
+    <!-- リクエストディスパッチハンドラ -->
+    <component class="nablarch.fw.handler.RequestPathJavaPackageMapping">
+      <property name="immediate" value="false"/>
+      <property name="basePath" value=""/>
+      <property name="basePackage" value="com.nablarch.example.action"/>
+    </component>
+
+    <!-- トランザクション制御ハンドラ -->
+    <component  class = "nablarch.common.handler.TransactionManagementHandler" />
+
+    <!-- 再送制御ハンドラ -->
+    <component class="nablarch.fw.messaging.handler.MessageResendHandler" />
+
+  </list>
+</component-configuration>

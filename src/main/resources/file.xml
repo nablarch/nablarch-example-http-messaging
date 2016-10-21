@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ファイル入出力に関係する設定
+-->
+<component-configuration
+    xmlns="http://tis.co.jp/nablarch/component-configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration  ./../component-configuration.xsd">
+
+  <!-- ファイルパス管理の設定 -->
+  <component name="filePathSetting" class="nablarch.core.util.FilePathSetting">
+    <!-- フォーマットディレクトリの設定 -->
+    <property name="basePathSettings">
+      <map>
+        <entry key="format" value="${format}"/>
+      </map>
+    </property>
+    <!-- 拡張子の設定 -->
+    <property name="fileExtensions">
+      <map>
+        <entry key="format" value="fmt" />
+      </map>
+    </property>
+  </component>
+</component-configuration>
