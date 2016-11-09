@@ -31,7 +31,7 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 まず、データベースのセットアップ及びエンティティクラスの作成を行います。以下のコマンドを実行してください。
 
     $cd nablarch-example-http-messaging
-    $mvn generate-resources pre-integration-test
+    $mvn generate-resources
 
 #### 3.2. アプリケーションのビルド
 
