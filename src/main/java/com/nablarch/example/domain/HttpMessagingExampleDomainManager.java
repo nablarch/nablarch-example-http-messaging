@@ -9,9 +9,6 @@ import nablarch.core.validation.ee.DomainManager;
  */
 public class HttpMessagingExampleDomainManager implements DomainManager<HttpMessagingExampleDomain> {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Class<HttpMessagingExampleDomain> getDomainBean() {
         return HttpMessagingExampleDomain.class;

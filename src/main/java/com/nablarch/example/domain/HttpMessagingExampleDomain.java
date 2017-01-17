@@ -14,6 +14,7 @@ import nablarch.core.validation.ee.SystemChar;
  *
  * @author Nabu Rakutaro
  */
+@SuppressWarnings("all")
 public class HttpMessagingExampleDomain {
     /** ID */
     @NumberRange(min = 0)

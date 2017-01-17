@@ -1,20 +1,29 @@
 package com.nablarch.example.form;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Objects;
+import java.util.regex.Pattern;
+
+import javax.validation.constraints.AssertTrue;
+
 import nablarch.core.util.DateUtil;
 import nablarch.core.util.StringUtil;
 import nablarch.core.validation.ee.Domain;
 import nablarch.core.validation.ee.Required;
-
-import javax.validation.constraints.AssertTrue;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * プロジェクト登録フォーム。
  *
  * @author Nabu Rakutaro
  */
+@SuppressWarnings("OverlyComplexClass")
 public class ProjectForm {
+
+    /** スラッシュを表す正規表現 */
+    private static final Pattern SLASH_PATTERN = Pattern.compile("/", Pattern.LITERAL);
 
     /** プロジェクト名 */
     @Required
@@ -82,7 +91,7 @@ public class ProjectForm {
      * @return プロジェクト名
      */
     public String getProjectName() {
-        return this.projectName;
+        return projectName;
     }
 
     /**
@@ -91,7 +100,7 @@ public class ProjectForm {
      * @return プロジェクト種別
      */
     public String getProjectType() {
-        return this.projectType;
+        return projectType;
     }
 
     /**
@@ -100,7 +109,7 @@ public class ProjectForm {
      * @return プロジェクト分類
      */
     public String getProjectClass() {
-        return this.projectClass;
+        return projectClass;
     }
 
     /**
@@ -109,7 +118,7 @@ public class ProjectForm {
      * @return プロジェクトマネージャー名
      */
     public String getProjectManager() {
-        return this.projectManager;
+        return projectManager;
     }
 
     /**
@@ -118,7 +127,7 @@ public class ProjectForm {
      * @return プロジェクトリーダー名
      */
     public String getProjectLeader() {
-        return this.projectLeader;
+        return projectLeader;
     }
 
     /**
@@ -127,7 +136,7 @@ public class ProjectForm {
      * @return 顧客ID
      */
     public String getClientId() {
-        return this.clientId;
+        return clientId;
     }
 
     /**
@@ -135,7 +144,7 @@ public class ProjectForm {
      * @return trueの場合は、顧客IDを保持している。
      */
     public boolean hasClientId() {
-        return this.clientId != null;
+        return clientId != null;
     }
 
     /**
@@ -144,7 +153,7 @@ public class ProjectForm {
      * @return 顧客名
      */
     public String getClientName() {
-        return this.clientName;
+        return clientName;
     }
 
 
@@ -170,7 +179,7 @@ public class ProjectForm {
      * @return 備考
      */
     public String getNote() {
-        return this.note;
+        return note;
     }
 
     /**
@@ -281,7 +290,8 @@ public class ProjectForm {
      * @param projectStartDate プロジェクト開始日
      */
     public void setProjectStartDate(String projectStartDate) {
-        this.projectStartDate = StringUtil.isNullOrEmpty(projectStartDate) ? null : projectStartDate.replace("/", "");
+        this.projectStartDate = StringUtil.isNullOrEmpty(projectStartDate) ?
+                null : SLASH_PATTERN.matcher(projectStartDate).replaceAll("");
     }
 
     /**
@@ -290,7 +300,8 @@ public class ProjectForm {
      * @param projectEndDate プロジェクト終了日
      */
     public void setProjectEndDate(String projectEndDate) {
-        this.projectEndDate = StringUtil.isNullOrEmpty(projectEndDate) ? null : projectEndDate.replace("/", "");
+        this.projectEndDate = StringUtil.isNullOrEmpty(projectEndDate) ?
+                null : SLASH_PATTERN.matcher(projectEndDate).replaceAll("");
     }
 
 
@@ -364,11 +375,8 @@ public class ProjectForm {
      * @param dateStr yyyyMMdd形式の文字列
      * @return java.sql.Dateオブジェクト
      */
-    private Date toDate(String dateStr) {
-        if (StringUtil.hasValue(dateStr)) {
-            return DateUtil.getDate(dateStr.replaceAll("/", ""));
-        }
-        return null;
+    private static Date toDate(String dateStr) {
+        return DateUtil.getDate(SLASH_PATTERN.matcher(dateStr).replaceAll(""));
     }
 
     /**
@@ -381,8 +389,7 @@ public class ProjectForm {
         if (sales == null || costOfGoodsSold == null) {
             return null;
         }
-        long result = Integer.valueOf(sales).longValue() - Integer.valueOf(costOfGoodsSold).longValue();
-        return result;
+        return Integer.valueOf(sales).longValue() - Integer.valueOf(costOfGoodsSold).longValue();
     }
 
     /**
@@ -391,13 +398,14 @@ public class ProjectForm {
      *
      * @return 配賦前利益
      */
+    @SuppressWarnings("WeakerAccess")
     public Long getProfitBeforeAllocation() {
-        if (sales == null || costOfGoodsSold == null || sga == null) {
+        if (hasEmptyValue(sales, costOfGoodsSold, sga)) {
             return null;
         }
-        long result = Integer.valueOf(sales).longValue() - Integer.valueOf(costOfGoodsSold).longValue()
-                - Integer.valueOf(sga).longValue();
-        return result;
+        return Long.valueOf(sales)
+                - Long.valueOf(costOfGoodsSold)
+                - Long.valueOf(sga);
     }
 
     /**
@@ -412,9 +420,9 @@ public class ProjectForm {
         }
         BigDecimal result = new BigDecimal(getProfitBeforeAllocation());
         try {
-            result = result.divide(new BigDecimal(sales), 3, BigDecimal.ROUND_DOWN);
-        } catch (ArithmeticException e) {
-            return BigDecimal.ZERO.setScale(3);
+            result = result.divide(new BigDecimal(sales), 3, RoundingMode.DOWN);
+        } catch (ArithmeticException ignored) {
+            return BigDecimal.ZERO.setScale(3, RoundingMode.DOWN);
         }
         return result;
     }
@@ -425,14 +433,16 @@ public class ProjectForm {
      *
      * @return 営業利益
      */
+    @SuppressWarnings("WeakerAccess")
     public Long getOperatingProfit() {
-        if (sales == null || costOfGoodsSold == null || sga == null || allocationOfCorpExpenses == null) {
+        if (hasEmptyValue(sales, costOfGoodsSold, sga, allocationOfCorpExpenses)) {
             return null;
         }
-        long result = Integer.valueOf(sales).longValue() - Integer.valueOf(costOfGoodsSold).longValue()
-                - Integer.valueOf(sga).longValue() - Integer.valueOf(allocationOfCorpExpenses).longValue();
-        return result;
-    };
+        return Long.valueOf(sales)
+                - Long.valueOf(costOfGoodsSold)
+                - Long.valueOf(sga)
+                - Long.valueOf(allocationOfCorpExpenses);
+    }
 
     /**
      * 営業利益率を取得する。<br />
@@ -446,11 +456,22 @@ public class ProjectForm {
         }
         BigDecimal result = new BigDecimal(getOperatingProfit());
         try {
-            result = result.divide(new BigDecimal(sales), 3, BigDecimal.ROUND_DOWN);
-        } catch (ArithmeticException e) {
-            return BigDecimal.ZERO.setScale(3);
+            result = result.divide(new BigDecimal(sales), 3, RoundingMode.DOWN);
+        } catch (ArithmeticException ignored) {
+            return BigDecimal.ZERO.setScale(3, RoundingMode.DOWN);
         }
         return result;
     }
 
+    /**
+     * 指定された値が全て値を持っていること(非nullであること)を返す。
+     *
+     * @param values 値
+     * @return 全て非nullの場合true
+     */
+    private static boolean hasEmptyValue(String... values) {
+        return Arrays.stream(values)
+                     .filter(Objects::isNull)
+                     .count() != 0;
+    }
 }

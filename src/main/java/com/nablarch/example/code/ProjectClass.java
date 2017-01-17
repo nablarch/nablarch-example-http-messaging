@@ -20,9 +20,9 @@ public enum ProjectClass implements CodeEnum {
     D("d", "D");
 
     /** プロジェクト規模のラベル */
-    private String label;
+    private final String label;
     /** プロジェクト規模のコード */
-    private String code;
+    private final String code;
 
     /**
      * コンストラクタ。
@@ -34,17 +34,11 @@ public enum ProjectClass implements CodeEnum {
         this.code = code;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getLabel() {
         return label;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getCode() {
         return code;

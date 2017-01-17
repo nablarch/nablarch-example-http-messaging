@@ -12,9 +12,9 @@ public enum ProjectType implements CodeEnum {
     MAINTENANCE("maintenance", "保守PJ");
 
     /** プロジェクト分類のラベル */
-    private String label;
+    private final String label;
     /** プロジェクト分類のコード */
-    private String code;
+    private final String code;
 
     /**
      * コンストラクタ。
@@ -26,17 +26,11 @@ public enum ProjectType implements CodeEnum {
         this.code = code;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getLabel() {
         return label;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getCode() {
         return code;

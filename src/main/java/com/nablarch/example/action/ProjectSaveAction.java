@@ -53,7 +53,7 @@ public class ProjectSaveAction extends MessagingAction {
         UniversalDao.insert(BeanUtil.createAndCopy(Project.class, form));
 
         // 応答電文のフォーマッタを作成する
-        requestMessage.setFormatterOfReply(createFormatter("ProjectSaveAction_REPLY"));
+        requestMessage.setFormatterOfReply(createFormatter());
 
         // 応答電文に記載するステータスコードを設定する
         Map<String, String> map = new HashMap<>();
@@ -85,7 +85,7 @@ public class ProjectSaveAction extends MessagingAction {
                                       ExecutionContext context) {
 
         // 応答電文のフォーマッタを作成する
-        requestMessage.setFormatterOfReply(createFormatter("ProjectSaveAction_REPLY"));
+        requestMessage.setFormatterOfReply(createFormatter());
 
         // ステータスコードを特定する。
         String statusCode = String.valueOf(HttpResponse.Status.INTERNAL_SERVER_ERROR.getStatusCode());
@@ -104,13 +104,12 @@ public class ProjectSaveAction extends MessagingAction {
     /**
      * 応答データのフォーマッタを取得する。
      *
-     * @param formatFileName フォーマットファイル名
      * @return レコードフォーマット
      */
-    private DataRecordFormatter createFormatter(String formatFileName) {
-        File file = FilePathSetting.getInstance().getFileIfExists("format", formatFileName);
+    private static DataRecordFormatter createFormatter() {
+        File file = FilePathSetting.getInstance().getFileIfExists("format", "ProjectSaveAction_REPLY");
         if (file == null) {
-            throw new IllegalArgumentException("format file does not exist.");
+            throw new IllegalStateException("format file does not exist.");
         }
         return FormatterFactory.getInstance().createFormatter(file);
     }

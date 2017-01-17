@@ -26,35 +26,58 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Nabu Rakutaro
  */
 @Documented
-@Constraint(validatedBy = { YYYYMMDD.YYYYMMDDValidator.class })
+@Constraint(validatedBy = YYYYMMDD.YYYYMMDDValidator.class)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 public @interface YYYYMMDD {
 
-    /** グループを取得する。 */
+    /**
+     * グループを取得する。
+     *
+     * @return グループ
+     */
     Class<?>[] groups() default { };
 
-    /** バリデーションエラー発生時に設定するメッセージ。 */
+    /**
+     * バリデーションエラー発生時に設定するメッセージ。
+     *
+     * @return デフォルトのエラーメッセージ
+     */
     String message() default "{com.nablarch.example.app.entity.core.validation.validator.YYYYMMDD.message}";
 
-    /** Payloadを取得する。 */
+    /**
+     * Payloadを取得する。
+     *
+     * @return Payload
+     */
     Class<? extends Payload>[] payload() default { };
 
-    /** 許容するフォーマット */
+    /**
+     * 許容するフォーマット
+     *
+     * @return 許容するフォーマット(デフォルトはyyyyMMdd)
+     */
     String allowFormat() default "yyyyMMdd";
 
     /** 複数指定用のアノテーション */
+    @SuppressWarnings("PublicInnerClass")
     @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
     @Retention(RUNTIME)
     @Documented
-    public @interface List {
-        /** YYYYMMDDの配列を取得する。 */
+    @interface List {
+
+        /**
+         * YYYYMMDDの配列を取得する。
+         *
+         * @return {@link YYYYMMDD}の配列
+         */
         YYYYMMDD[] value();
     }
 
     /**
      * 日付フォーマットバリデータの実装クラス。
      */
+    @SuppressWarnings("PublicInnerClass")
     class YYYYMMDDValidator implements ConstraintValidator<YYYYMMDD, String> {
 
         /** 許容するフォーマット */
@@ -66,7 +89,7 @@ public @interface YYYYMMDD {
          */
         @Override
         public void initialize(YYYYMMDD constraintAnnotation) {
-            this.allowFormat = constraintAnnotation.allowFormat();
+            allowFormat = constraintAnnotation.allowFormat();
         }
 
         /**
@@ -82,7 +105,7 @@ public @interface YYYYMMDD {
             }
             try {
                 return DateUtil.getParsedDate(value, allowFormat) != null;
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException ignored) {
                 return false;
             }
         }

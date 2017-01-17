@@ -25,36 +25,58 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Nabu Rakutaro
  */
 @Documented
-@Constraint(validatedBy = { CodeValue.CodeValueValidator.class })
+@Constraint(validatedBy = CodeValue.CodeValueValidator.class)
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
 public @interface CodeValue {
 
-    /** バリデーションエラー発生時に設定するメッセージ。 */
+    /**
+     * バリデーションエラー発生時に設定するメッセージ。
+     *
+     * @return デフォルトのエラーメッセージ
+     */
     String message() default "{com.nablarch.example.app.entity.core.validation.validator.CodeValue.message}";
 
-    /** コードenumを取得する。*/
+    /**
+     * コードenumを取得する。
+     *
+     * @return バリデーション対象のコード定義を持つ {@link Enum}
+     */
     Class<? extends Enum<?>> enumClass();
 
     /** 複数指定用のアノテーション */
+    @SuppressWarnings("PublicInnerClass")
     @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
     @Retention(RUNTIME)
     @Documented
-    public @interface List {
+    @interface List {
 
-        /** CodeValueの配列を取得する。 */
+        /**
+         * CodeValueの配列を取得する。
+         *
+         * @return {@link CodeValue}の配列
+         */
         CodeValue[] value();
     }
 
-    /** グループを取得する。 */
+    /**
+     * グループを取得する。
+     *
+     * @return グループ
+     */
     Class<?>[] groups() default { };
 
-    /** Payloadを取得する。 */
+    /**
+     * Payloadを取得する。
+     *
+     * @return Payload
+     */
     Class<? extends Payload>[] payload() default { };
 
     /**
      * CodeValueの検証を行う実装クラス。
      */
+    @SuppressWarnings("PublicInnerClass")
     class CodeValueValidator implements ConstraintValidator<CodeValue, String> {
 
         /** コードをまとめたEnumの配列 */
