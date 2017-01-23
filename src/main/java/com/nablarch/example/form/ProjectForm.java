@@ -386,7 +386,7 @@ public class ProjectForm {
      * @return 売上総利益
      */
     public Long getGrossProfit() {
-        if (sales == null || costOfGoodsSold == null) {
+        if (hasEmptyValue(sales, costOfGoodsSold)) {
             return null;
         }
         return Integer.valueOf(sales).longValue() - Integer.valueOf(costOfGoodsSold).longValue();
@@ -398,7 +398,6 @@ public class ProjectForm {
      *
      * @return 配賦前利益
      */
-    @SuppressWarnings("WeakerAccess")
     public Long getProfitBeforeAllocation() {
         if (hasEmptyValue(sales, costOfGoodsSold, sga)) {
             return null;
@@ -433,7 +432,6 @@ public class ProjectForm {
      *
      * @return 営業利益
      */
-    @SuppressWarnings("WeakerAccess")
     public Long getOperatingProfit() {
         if (hasEmptyValue(sales, costOfGoodsSold, sga, allocationOfCorpExpenses)) {
             return null;
@@ -471,7 +469,6 @@ public class ProjectForm {
      */
     private static boolean hasEmptyValue(String... values) {
         return Arrays.stream(values)
-                     .filter(Objects::isNull)
-                     .count() != 0;
+                     .anyMatch(Objects::isNull);
     }
 }
