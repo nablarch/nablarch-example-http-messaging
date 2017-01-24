@@ -1,10 +1,6 @@
 package com.nablarch.example.form;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.validation.constraints.AssertTrue;
@@ -19,7 +15,6 @@ import nablarch.core.validation.ee.Required;
  *
  * @author Nabu Rakutaro
  */
-@SuppressWarnings("OverlyComplexClass")
 public class ProjectForm {
 
     /** スラッシュを表す正規表現 */
@@ -379,96 +374,4 @@ public class ProjectForm {
         return DateUtil.getDate(SLASH_PATTERN.matcher(dateStr).replaceAll(""));
     }
 
-    /**
-     * 売上総利益を取得する。<br />
-     * 売上総利益が算出できない場合はnullを返却する。
-     *
-     * @return 売上総利益
-     */
-    public Long getGrossProfit() {
-        if (hasEmptyValue(sales, costOfGoodsSold)) {
-            return null;
-        }
-        return Integer.valueOf(sales).longValue() - Integer.valueOf(costOfGoodsSold).longValue();
-    }
-
-    /**
-     * 配賦前利益を取得する。<br />
-     * 配賦前利益が算出できない場合はnullを返却する。
-     *
-     * @return 配賦前利益
-     */
-    public Long getProfitBeforeAllocation() {
-        if (hasEmptyValue(sales, costOfGoodsSold, sga)) {
-            return null;
-        }
-        return Long.valueOf(sales)
-                - Long.valueOf(costOfGoodsSold)
-                - Long.valueOf(sga);
-    }
-
-    /**
-     * 配賦前利益率を取得する。<br />
-     * 配賦前利益率が算出できない場合はnullを返却する。
-     *
-     * @return 配賦前利益率
-     */
-    public BigDecimal getProfitRateBeforeAllocation() {
-        if (getProfitBeforeAllocation() == null) {
-            return null;
-        }
-        BigDecimal result = new BigDecimal(getProfitBeforeAllocation());
-        try {
-            result = result.divide(new BigDecimal(sales), 3, RoundingMode.DOWN);
-        } catch (ArithmeticException ignored) {
-            return BigDecimal.ZERO.setScale(3, RoundingMode.DOWN);
-        }
-        return result;
-    }
-
-    /**
-     * 営業利益を取得する。<br />
-     * 営業利益が算出できない場合はnullを返却する。
-     *
-     * @return 営業利益
-     */
-    public Long getOperatingProfit() {
-        if (hasEmptyValue(sales, costOfGoodsSold, sga, allocationOfCorpExpenses)) {
-            return null;
-        }
-        return Long.valueOf(sales)
-                - Long.valueOf(costOfGoodsSold)
-                - Long.valueOf(sga)
-                - Long.valueOf(allocationOfCorpExpenses);
-    }
-
-    /**
-     * 営業利益率を取得する。<br />
-     * 営業利益率が算出できない場合はnullを返却する。
-     *
-     * @return 営業利益率
-     */
-    public BigDecimal getOperatingProfitRate() {
-        if (getOperatingProfit() == null) {
-            return null;
-        }
-        BigDecimal result = new BigDecimal(getOperatingProfit());
-        try {
-            result = result.divide(new BigDecimal(sales), 3, RoundingMode.DOWN);
-        } catch (ArithmeticException ignored) {
-            return BigDecimal.ZERO.setScale(3, RoundingMode.DOWN);
-        }
-        return result;
-    }
-
-    /**
-     * 指定された値が全て値を持っていること(非nullであること)を返す。
-     *
-     * @param values 値
-     * @return 全て非nullの場合true
-     */
-    private static boolean hasEmptyValue(String... values) {
-        return Arrays.stream(values)
-                     .anyMatch(Objects::isNull);
-    }
 }
