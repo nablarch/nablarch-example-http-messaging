@@ -26,6 +26,9 @@
     <component name="webFrontController" class="nablarch.fw.web.servlet.WebFrontController">
         <property name="handlerQueue">
             <list>
+                <!-- スレッドコンテキスト変数削除ハンドラ -->
+                <component class="nablarch.common.handler.threadcontext.ThreadContextClearHandler" />
+
                 <!-- グローバルエラーハンドラ -->
                 <component class="nablarch.fw.handler.GlobalErrorHandler"/>
 
