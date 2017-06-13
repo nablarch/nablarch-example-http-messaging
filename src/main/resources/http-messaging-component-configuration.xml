@@ -11,7 +11,7 @@
     <config-file file="common.config"/>
 
     <!-- DB設定 -->
-    <import file="nablarch/webui/db-for-webui.xml"/>
+    <import file="nablarch/core/db-base.xml"/>
 
     <!-- データソース及び方言の設定 -->
     <import file="db.xml"/>

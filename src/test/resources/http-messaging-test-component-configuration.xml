@@ -10,7 +10,7 @@
   <component name="requestIdExtractor" class="nablarch.common.util.ShortRequestIdExtractor" />
 
   <!-- DB設定 -->
-  <import file="nablarch/webui/db-for-webui.xml"/>
+  <import file="nablarch/core/db-base.xml"/>
   <!-- データソース及び方言の設定 -->
   <import file="db.xml"/>
   <!-- メッセージング関連設定 -->
@@ -45,6 +45,7 @@
   </component>
 
   <!-- 本番用のconfigファイルを読み込む -->
+  <import file="nablarch/schema-config.xml" />
   <config-file file="http-messaging.config" />
   <config-file file="common.config" />
 
