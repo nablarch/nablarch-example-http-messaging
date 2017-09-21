@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.nablarch.archetype</groupId>
         <artifactId>nablarch-archetype-parent</artifactId>
-        <version>5u10</version>
+        <version>5u11</version>
     </parent>
 
     <groupId>com.nablarch.example</groupId>
     <artifactId>nablarch-example-http-messaging</artifactId>
-    <version>5u10</version>
+    <version>5u11</version>
     <packaging>war</packaging>
 
     <properties>
@@ -170,14 +170,9 @@
             <dependency>
                 <groupId>com.nablarch.profile</groupId>
                 <artifactId>nablarch-bom</artifactId>
-                <version>5u10</version>
+                <version>5u11</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.192</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -312,14 +307,14 @@
             <plugin>
                 <groupId>net.unit8.waitt</groupId>
                 <artifactId>waitt-maven-plugin</artifactId>
-                <version>1.1.0</version>
+                <version>1.2.1</version>
                 <configuration>
                     <port>9080</port>
                     <servers>
                         <server>
                             <groupId>net.unit8.waitt.server</groupId>
-                            <artifactId>waitt-tomcat7</artifactId>
-                            <version>0.1.0</version>
+                            <artifactId>waitt-tomcat8</artifactId>
+                            <version>1.2.1</version>
                         </server>
                     </servers>
                 </configuration>
