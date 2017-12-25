@@ -43,13 +43,13 @@
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-core-applog:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-core-dataformat:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-fw-web-tag:1.0.7" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: taglibs:standard:1.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-code:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-exclusivecontrol:1.0.1" level="project" />
-    <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-encryption:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-auth:1.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: taglibs:standard:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-encryption:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-jdbc:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-dao:1.4.0" level="project" />
+    <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-dao:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-idgenerator:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.framework:nablarch-common-databind:1.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.nablarch.integration:nablarch-router-adaptor:1.0.1" level="project" />
