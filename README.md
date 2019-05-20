@@ -38,11 +38,6 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 
     $mvn compile
 
-#### 3.2. テスト用クライアントクラスのビルド
-テスト用クライアントクラスのビルドを行います。
-
-    $mvn test-compile
-
 ### 4. アプリケーションの起動
 最後にwaitt-maven-pluginを実行し、組み込みTomcatを起動させます。以下のコマンドを実行してください。
 
@@ -69,9 +64,10 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 
 #### 5.1. クライアントクラスが依存するjarの出力
 
-以下のコマンドを実行し、クライアントクラスが依存するjarをtarget/dependency配下に出力してください。
+以下のコマンドを実行し、テスト用ソースコードのコンパイルを行い、クライアントクラスが依存するjarをtarget/dependency配下に出力してください。
 
     $cd nablarch-example-http-messaging
+    $mvn test-compile
     $mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
     
 #### 5.2. クライアントクラスの実行
