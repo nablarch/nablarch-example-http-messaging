@@ -62,11 +62,12 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 
 以降はコマンドプロンプトからクライアントクラスを実行する手順となります。
 
-#### 5.1. クライアントクラスが依存するjarの出力
+#### 5.1. クライアントクラスのビルド
 
-以下のコマンドを実行し、クライアントクラスが依存するjarをtarget/dependency配下に出力してください。
+以下のコマンドを実行し、テスト用ソースコードのコンパイルを行い、クライアントクラスが依存するjarをtarget/dependency配下に出力してください。
 
     $cd nablarch-example-http-messaging
+    $mvn test-compile
     $mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
     
 #### 5.2. クライアントクラスの実行
