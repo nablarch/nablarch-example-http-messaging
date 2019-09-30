@@ -356,7 +356,8 @@ public class ProjectForm {
      */
     @AssertTrue(message = "プロジェクト終了日はプロジェクト開始日より後の日付を入力して下さい。")
     private boolean isValidProjectPeriod() {
-        if (StringUtil.hasValue(projectStartDate) && StringUtil.hasValue(projectEndDate)) {
+        if (StringUtil.hasValue(projectStartDate) && StringUtil.hasValue(projectEndDate)
+                && DateUtil.isValid(projectStartDate, "yyyyMMdd") && DateUtil.isValid(projectEndDate, "yyyyMMdd")) {
             if (toDate(projectStartDate).compareTo(toDate(projectEndDate)) > 0) {
                 return false;
             }
