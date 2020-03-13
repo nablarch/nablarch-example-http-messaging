@@ -38,6 +38,9 @@
                 <!-- スレッドコンテキスト変数管理ハンドラ -->
                 <component-ref name="threadContextHandler"/>
 
+                <!-- HTTPアクセスログハンドラ -->
+                <component class="nablarch.common.web.handler.HttpAccessLogHandler"/>
+
                 <!-- HTTPメッセージングエラー制御ハンドラ -->
                 <component class="nablarch.fw.messaging.handler.HttpMessagingErrorHandler">
                     <property name="defaultPages">
