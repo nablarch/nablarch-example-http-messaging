@@ -8,7 +8,7 @@ HTTPメッセージング設定用の設定ファイル
         xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration ../component-configuration.xsd">
 
     <!-- テスト用の設定ファイル -->
-    <config-file file="messaging/messaging.config"/>
+    <config-file file="messaging/messaging.properties"/>
 
     <!-- メッセージングプロバイダ定義 -->
     <component

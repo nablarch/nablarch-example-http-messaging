@@ -7,8 +7,8 @@
     <!-- テーブル定義 -->
     <import file="nablarch/schema-config.xml" />
 
-    <config-file file="http-messaging.config"/>
-    <config-file file="common.config"/>
+    <config-file file="http-messaging.properties"/>
+    <config-file file="common.properties"/>
 
     <!-- DB設定 -->
     <import file="nablarch/core/db-base.xml"/>
