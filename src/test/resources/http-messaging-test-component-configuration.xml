@@ -46,8 +46,8 @@
 
   <!-- 本番用のconfigファイルを読み込む -->
   <import file="nablarch/schema-config.xml" />
-  <config-file file="http-messaging.config" />
-  <config-file file="common.config" />
+  <config-file file="http-messaging.properties" />
+  <config-file file="common.properties" />
 
   <!-- メッセージングテスト用の設定を読み込む -->
   <component name="duplicateProcessCheckHandler" class="nablarch.test.NopHandler" />
