@@ -1,14 +1,18 @@
 package com.nablarch.example.action;
 
 import nablarch.test.core.messaging.MessagingRequestTestSupport;
-import org.junit.Test;
+import nablarch.test.junit5.extension.messaging.MessagingRequestTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * プロジェクト登録ウェブサービスのリクエスト単体テストクラス。
  *
  * @author Nabu Rakutaro
  */
-public class ProjectSaveActionRequestTest  extends MessagingRequestTestSupport {
+@MessagingRequestTest
+class ProjectSaveActionRequestTest {
+
+    MessagingRequestTestSupport support;
 
     /**
      * 正常終了のテストケース。
@@ -16,8 +20,8 @@ public class ProjectSaveActionRequestTest  extends MessagingRequestTestSupport {
      * 全ての出力対象フィールドにデータがある場合。
      */
     @Test
-    public void testNormalEndExistAllFields() {
-        execute();
+    void testNormalEndExistAllFields() {
+        support.execute(support.testName.getMethodName());
     }
 
     /**
@@ -26,14 +30,14 @@ public class ProjectSaveActionRequestTest  extends MessagingRequestTestSupport {
      * 必須の出力対象フィールドにのみデータがある場合。
      */
     @Test
-    public void testNormalEndOnlyRequireFields() {
-        execute();
+    void testNormalEndOnlyRequireFields() {
+        support.execute(support.testName.getMethodName());
     }
 
 
     /** 異常系のテスト。 */
     @Test
-    public void testAbNormalEnd() {
-        execute();
+    void testAbNormalEnd() {
+        support.execute(support.testName.getMethodName());
     }
 }
