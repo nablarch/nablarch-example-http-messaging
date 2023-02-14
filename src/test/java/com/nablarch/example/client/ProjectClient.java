@@ -2,9 +2,9 @@ package com.nablarch.example.client;
 
 import com.nablarch.example.form.ProjectForm;
 
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * プロジェクトAPIのテスト起動用クライアント。
