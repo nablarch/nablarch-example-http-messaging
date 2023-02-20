@@ -3,7 +3,7 @@ package com.nablarch.example.form;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import javax.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.AssertTrue;
 
 import nablarch.core.util.DateUtil;
 import nablarch.core.util.StringUtil;
