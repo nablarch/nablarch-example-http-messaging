@@ -3,7 +3,7 @@ package com.nablarch.example.domain;
 import com.nablarch.example.code.ProjectClass;
 import com.nablarch.example.code.ProjectType;
 import com.nablarch.example.validator.CodeValue;
-import com.nablarch.example.validator.YYYYMMDD;
+import nablarch.core.validation.ee.DateFormat;
 import nablarch.core.validation.ee.Digits;
 import nablarch.core.validation.ee.Length;
 import nablarch.core.validation.ee.NumberRange;
@@ -40,7 +40,7 @@ public class HttpMessagingExampleDomain {
     private String projectClass;
 
     /** 日付 */
-    @YYYYMMDD(allowFormat = "yyyyMMdd")
+    @DateFormat
     private String date;
 
     /** ユーザ氏名（漢字） */
