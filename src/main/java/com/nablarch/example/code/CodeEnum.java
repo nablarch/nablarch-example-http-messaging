@@ -1,11 +1,12 @@
 package com.nablarch.example.code;
 
+import nablarch.core.validation.ee.EnumElement.WithValue;
 /**
  * コード値Enumを定義したインタフェース。
  *
  * @author Nabu Rakutaro
  */
-public interface CodeEnum {
+public interface CodeEnum extends WithValue<String> {
     /**
      * ラベルを返却する。
      * @return ラベル
@@ -16,5 +17,6 @@ public interface CodeEnum {
      * コード値を返却する。
      * @return コード値
      */
-    String getCode();
+    @Override
+    String getValue();
 }
