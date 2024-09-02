@@ -30,6 +30,7 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 ### 4. アプリケーションのビルドと起動
 jetty-ee10-maven-pluginを実行し、組み込みJettyを起動させます。以下のコマンドを実行してください。
 
+    $cd nablarch-example-http-messaging
     $mvn jetty:run
 
 #### コマンドの補足
