@@ -28,7 +28,6 @@ Gitを使用している場合、アプリケーションを配置したいデ�
 Gitを使用しない場合、最新のタグからzipをダウンロードし、任意のディレクトリへ展開してください。
 
 ### 3. アプリケーションのビルド
-#### 3.1. アプリケーションのビルド
 アプリケーションのビルドを行います。
 ビルドの際に、gspプラグインによりデータベースのセットアップが行われます。
 
@@ -41,7 +40,7 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 
 ### 5. テスト用クライアントクラスからのアクセス
 
-以下のテスト用クライアントクラスのmainメソッドを実行します。
+`src\test\java`以下に配置している、テスト用クライアントクラスのmainメソッドを実行します。
 
 * com.nablarch.example.client.ProjectClient
 
@@ -51,30 +50,13 @@ Gitを使用しない場合、最新のタグからzipをダウンロードし�
 * リクエスト1:バリデーションエラーが発生する登録リクエスト(レスポンスコード：400)
 * リクエスト2:正常に登録できる登録リクエスト(レスポンスコード：201)
 
-アプリケーションが正常に稼働している場合、標準出力に以下の内容が出力されます。
+IDEから実行するか、別のターミナルを開いて以下のコマンドを実行してください。
 
-   \####400####  
-   \####201####
-
-以降はコマンドプロンプトからクライアントクラスを実行する手順となります。
-
-#### 5.1. クライアントクラスのビルド
-
-以下のコマンドを実行し、テスト用ソースコードのコンパイルを行い、クライアントクラスが依存するjarをtarget/dependency配下に出力してください。
-
-    $cd nablarch-example-http-messaging
+    $cd c:\example\nablarch-example-http-messaging
     $mvn test-compile
-    $mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
-    
-#### 5.2. クライアントクラスの実行
+    $mvn exec:java -Dexec.mainClass=com.nablarch.example.client.ProjectClient -Dexec.classpathScope=test
 
-以下のコマンドを実行し、クライアントクラスのmainメソッドを実行してください。
-
-    $java -cp .\target\test-classes\;.\target\classes\;.\target\dependency\*; com.nablarch.example.client.ProjectClient
-
-#### 5.3. 結果検証
-
-標準出力に以下の内容が出力されていることを確認してください。
+アプリケーションが正常に稼働している場合、標準出力に以下の内容が出力されます。
 
    \####400####  
    \####201####
