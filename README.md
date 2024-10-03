@@ -60,7 +60,7 @@ jetty-ee10-maven-pluginを実行し、組み込みJettyを起動させます。�
 
 ### 4. テスト用クライアントクラスからのアクセス
 
-以下のテスト用クライアントクラスのmainメソッドを実行します。
+`src\test\java`以下に配置している、テスト用クライアントクラスのmainメソッドを実行します。
 
 * com.nablarch.example.client.ProjectClient
 
@@ -70,30 +70,13 @@ jetty-ee10-maven-pluginを実行し、組み込みJettyを起動させます。�
 * リクエスト1:バリデーションエラーが発生する登録リクエスト(レスポンスコード：400)
 * リクエスト2:正常に登録できる登録リクエスト(レスポンスコード：201)
 
-アプリケーションが正常に稼働している場合、標準出力に以下の内容が出力されます。
+IDEから実行するか、別のターミナルを開いて以下のコマンドを実行してください。
 
-   \####400####  
-   \####201####
-
-以降はコマンドプロンプトからクライアントクラスを実行する手順となります。
-
-#### 4.1. クライアントクラスのビルド
-
-以下のコマンドを実行し、テスト用ソースコードのコンパイルを行い、クライアントクラスが依存するjarをtarget/dependency配下に出力してください。
-
-    $cd nablarch-example-http-messaging
+    $cd c:\example\nablarch-example-http-messaging
     $mvn test-compile
-    $mvn dependency:copy-dependencies -DoutputDirectory=target/dependency
-    
-#### 4.2. クライアントクラスの実行
+    $mvn exec:java -Dexec.mainClass=com.nablarch.example.client.ProjectClient -Dexec.classpathScope=test
 
-以下のコマンドを実行し、クライアントクラスのmainメソッドを実行してください。
-
-    $java -cp .\target\test-classes\;.\target\classes\;.\target\dependency\*; com.nablarch.example.client.ProjectClient
-
-#### 4.3. 結果検証
-
-標準出力に以下の内容が出力されていることを確認してください。
+アプリケーションが正常に稼働している場合、標準出力に以下の内容が出力されます。
 
    \####400####  
    \####201####
