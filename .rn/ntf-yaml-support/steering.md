@@ -123,10 +123,10 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 - [x] 同名の `.xls` と `.xlsx` が併存していないか確認する（ベース名が異なるため併存なし）
 - [x] `/home/k10949/workspace/nablarch-testing-converter/README.md` の手順に従い、全ての対象ExcelファイルをYAML変換する（`Converted 2 file(s)` / BUILD SUCCESS、WARN なし、計7 YAML）
 - [x] 変換後、各YAMLファイルについてExcelの内容とサンプリングで比較し、一致を確認する（POI独立ダンプ `scripts/ExcelDump.java` と突合、各ファイル3件以上、差異なし）
-- [x] サンプリング比較結果を `checks/task-3.md` に記録する（差異なし）
+- [x] サンプリング比較結果を `checks/task-3.md` に記録する（差異なし。`"?"`→`?` は QuotationTrimmer 仕様で欠陥なし）
 - [x] 変換したYAMLファイルをコミットする（Excelはまだ削除しない）
 - [x] self-check (OK/NG per completion criterion, record in checks/task-3.md)
-- [ ] QA expert review (Agent: general-purpose / Opus 4.8)
+- [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
 - [ ] user review
 
 **Completion criteria**:
@@ -184,7 +184,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 - **Status**: in progress
 - **Date**: 2026-10-06
-- **Last completed**: Task #3（Excel 2件を YAML 7件に変換。POI独立ダンプとサンプリング比較し差異なし。self-check OK）。QA review・user review 待ち。
+- **Last completed**: Task #3（Excel 2件を YAML 7件に変換。POI独立ダンプとサンプリング比較し差異なし。self-check OK、QA OK）。user review 待ち。
 - **Next**: Task #4（Excelを削除する）
 - **重要**: 本PJのメッセージング電文は `file-type: Fixed` + 数値 length（403/20）でモデル化されており、姉妹PJ send の `length: "JSON"` ブロッカーとは異なる。Task #5 でスキーマ適合・全テストパスの見込み（実機確認は Task #5）。
 - **Notes**: ブランチ `ntf-yaml-support`（develop 起点）。JSONフォーマット電文のYAMLスキーマ非互換が Task #5 で顕在化する可能性あり（姉妹PJ send で既知）。

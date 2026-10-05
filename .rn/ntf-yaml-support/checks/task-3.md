@@ -4,9 +4,9 @@
 
 | Criterion | Self-check | Evidence | QA | QA Evidence |
 |---|---|---|---|---|
-| 変換対象の全ExcelファイルにYAMLが生成 | OK | `ProjectFormTest.xls` → 3件（testBeanValidation / testCharsetAndLength / testSingleValidation）、`ProjectSaveActionRequestTest.xlsx` → 4件（setUpDb / testAbNormalEnd / testNormalEndExistAllFields / testNormalEndOnlyRequireFields）。計7ファイル。converter: `Converted 2 file(s)` / BUILD SUCCESS、WARN（重複カラム）なし | | |
-| サンプリング比較でExcelとYAMLの内容が一致 | OK | Apache POI(3.8) による独立ダンプ（`scripts/ExcelDump.java`）と全7YAMLを突合。各ファイル3件以上サンプリング、差異なし（詳細は下記） | | |
-| 変換後YAMLがコミットされている | OK | 7 YAMLファイル・steering.md・task-3.md・scripts/ExcelDump.java をコミット（Excel/xlsx は未削除） | | |
+| 変換対象の全ExcelファイルにYAMLが生成 | OK | `ProjectFormTest.xls` → 3件（testBeanValidation / testCharsetAndLength / testSingleValidation）、`ProjectSaveActionRequestTest.xlsx` → 4件（setUpDb / testAbNormalEnd / testNormalEndExistAllFields / testNormalEndOnlyRequireFields）。計7ファイル。converter: `Converted 2 file(s)` / BUILD SUCCESS、WARN（重複カラム）なし | OK | QAが7YAMLをPyYAMLでパース、シート名=YAMLファイル名の全7対応を独立確認 |
+| サンプリング比較でExcelとYAMLの内容が一致 | OK | Apache POI(3.8) による独立ダンプ（`scripts/ExcelDump.java`）と全7YAMLを突合。各ファイル3件以上サンプリング、差異なし（詳細は下記） | OK | QAがExcel生値を repr/バイト長付きで再ダンプ＋YAML実デコードで電文JSONを全文バイト照合（366/334/344字 完全一致）。差異は `"?"`→`?` の1件のみで QuotationTrimmer 仕様通り（下記 QuotationTrimmer 注記参照、欠陥なし） |
+| 変換後YAMLがコミットされている | OK | 7 YAMLファイル・steering.md・task-3.md・scripts/ExcelDump.java をコミット（Excel/xlsx は未削除） | OK | commit `74cdf49` に7YAMLがコミット済み、Excel 2件は git 追跡下で未削除（Task #4 で削除）を確認 |
 
 ### 変換ツール実行
 
@@ -37,12 +37,18 @@
 - `testSingleValidation` → `singleValidation`: row1(projectType, 空, Required.message), row2(development, messageId空), row3(maintenance), row4(hoge, EnumElement.message) → 一致 ✓。コメントセル `// emptyNG` はデータ列ではないため正しく除外 ✓
 - `testBeanValidation` → `testShots`+`params` の2 list_map: testShots 5行（正常系-1〜4 は expectedMessageId1 空、異常系-1 は `プロジェクト終了日はプロジェクト開始日より後の日付を入力して下さい。`、propertyName1=validProjectPeriod）、`[No]` マーカー列は正しく除外。params の各行（projectClass=ss/s/a …、clientId=`${半角数字,9}` 他）→ 一致 ✓
 
+### QuotationTrimmer に関する注記（QA検出、欠陥なし）
+
+- `testSingleValidation` の projectStartDate/projectEndDate の `?` ケース（Excel R52C2/R70C2）で、Excel 生値は3文字 `"?"`（0x22 0x3F 0x22）だが YAML は `input1: "?"`（デコード値1文字 `?`）。
+- これは Nablarch `QuotationTrimmer`（実行時に前後ダブルクォートを除去する仕様）に基づく。Excel 経路では実行時に `"?"` → `?` とトリムされるため、converter が除去後の `?` を YAML 化したのは意味的に等価で正しい。
+- 本PJの `unit-test.xml` の `yamlInterpreters` は `quotationTrimmer` を**除外**しているため、YAML 値 `?` はそのまま `?` として読まれ、Excel 実行時値と一致する。両経路のテスト値は `?` で同一。前後クォート付きセルは全Excel走査でこの2件のみ。
+
 ## QA Expert Review
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| Meaningful tests/verification | | |
-| Edge case coverage | | |
+| Meaningful tests/verification | OK | self-check の POI依存ダンプに加え、QAが独立に Excel 生値を repr/バイト長付きで再ダンプ＋全7YAMLを PyYAML 実デコードし、電文JSONを全文バイト照合（366/334/344字 完全一致）。self-check 未言及の `"?"`（QuotationTrimmer）差異まで追跡し仕様確認済み |
+| Edge case coverage | OK | JSON電文の改行/多バイト/`null`/空文字、`rows: []`、コメント行・`[No]`マーカー・列外コメント（`// emptyNG`）の除外、group_id、USER_ID=null、ダブルクォート規約を網羅確認。停止すべき差異なし |
 
 ## Expert Reviews (code changes only)
 
@@ -51,10 +57,10 @@ N/A — no code changes in this task（テストデータYAMLの生成のみ、�
 ## Overall Verdict
 
 - Self-check: OK
-- QA: （記入予定）
+- QA: OK
 - Language expert: N/A
 - Software-engineering expert: N/A
-- Ready for user review: （記入予定）
+- Ready for user review: Yes
 
 ## 備考（Task #5 への申し送り）
 
