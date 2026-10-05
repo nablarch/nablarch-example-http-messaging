@@ -1,0 +1,7 @@
+setup_tables:
+  - table: "PROJECT"
+    rows: []
+  - table: "INDUSTRY"
+    rows: []
+  - table: "CLIENT"
+    rows: []
