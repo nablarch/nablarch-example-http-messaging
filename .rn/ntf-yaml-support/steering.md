@@ -93,15 +93,15 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 **Steps**:
 
-- [ ] `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT`（test scope）を追加する
-- [ ] `pom.xml` の `<build><plugins>` に `nablarch-testing-converter:1.0.0-SNAPSHOT` をビルドプラグインとして追加する（`<configuration>` に from=xls / to=yaml / input / output / overwrite を設定。web/batch/send 準拠）
-- [ ] `unit-test.xml` に `yamlInterpreters` リストと `YamlTestDataParser` コンポーネントを追加する（隣接プロジェクトを参考）
-- [ ] `mvn validate` / `mvn dependency:resolve` / `mvn help:describe`（converter）で解決確認
-- [ ] 変更したファイルをコミットする
-- [ ] self-check (OK/NG per completion criterion, record in checks/task-2.md)
-- [ ] QA expert review (Agent: general-purpose / Opus 4.8)
-- [ ] language expert review (Agent: general-purpose / Opus 4.8)
-- [ ] software-engineering expert review (Agent: general-purpose / Opus 4.8)
+- [x] `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT`（test scope）を追加する
+- [x] `pom.xml` の `<build><plugins>` に `nablarch-testing-converter:1.0.0-SNAPSHOT` をビルドプラグインとして追加する（`<configuration>` に from=xls / to=yaml / input / output / overwrite を設定。web/batch/send 準拠）
+- [x] `unit-test.xml` に `yamlInterpreters` リストと `YamlTestDataParser` コンポーネントを追加する（隣接プロジェクトを参考）
+- [x] `mvn validate` / `mvn dependency:resolve` / `mvn help:describe`（converter）で解決確認（いずれも BUILD SUCCESS）
+- [x] 変更したファイルをコミットする
+- [x] self-check (OK/NG per completion criterion, record in checks/task-2.md)
+- [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
+- [x] language expert review (Agent: general-purpose / Opus 4.8) — OK
+- [x] software-engineering expert review (Agent: general-purpose / Opus 4.8) — OK
 - [ ] user review
 
 **Completion criteria**:
@@ -184,6 +184,6 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 - **Status**: in progress
 - **Date**: 2026-10-06
-- **Last completed**: Task #1（ベースライン `mvn clean test` → Tests run: 19 / BUILD SUCCESS。self-check OK、QA OK）。user review 待ち。
-- **Next**: Task #2（pom.xml・unit-test.xml にYAML対応を追加）
+- **Last completed**: Task #2（pom.xml に yaml test依存・converter ビルドプラグイン追加、unit-test.xml に yamlInterpreters/YamlTestDataParser 追加。dependency:resolve/help:describe BUILD SUCCESS。self-check OK、QA/Language/SW-eng 全 OK）。user review 待ち。
+- **Next**: Task #3（ExcelテストデータをYAMLに変換）
 - **Notes**: ブランチ `ntf-yaml-support`（develop 起点）。JSONフォーマット電文のYAMLスキーマ非互換が Task #5 で顕在化する可能性あり（姉妹PJ send で既知）。

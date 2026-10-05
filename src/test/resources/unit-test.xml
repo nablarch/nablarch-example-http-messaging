@@ -16,6 +16,21 @@
     <property name="schema" value="PUBLIC"/>
   </component>
 
+  <!-- YAMLテストデータ用インタープリタ（QuotationTrimmerを除く）
+       YAMLライブラリがダブルクォートを構文として処理済みで返すため、QuotationTrimmerは不要。 -->
+  <list name="yamlInterpreters">
+    <component-ref name="nullInterpreter"/>
+    <component-ref name="dateTimeInterpreter"/>
+    <component-ref name="lineSeparatorInterpreter"/>
+    <component-ref name="compositeInterpreter"/>
+  </list>
+
+  <!-- YamlTestDataParser でtestDataParserを上書き -->
+  <component name="testDataParser" class="nablarch.test.core.reader.YamlTestDataParser">
+    <property name="dbInfo" ref="dbInfo"/>
+    <property name="interpreters" ref="yamlInterpreters"/>
+  </component>
+
   <!-- エンティティテスト設定 -->
   <component name="entityTestConfiguration" class="nablarch.test.core.entity.EntityTestConfiguration">
     <property name="maxMessageId" value="{nablarch.core.validation.ee.Length.max.message}"/>
