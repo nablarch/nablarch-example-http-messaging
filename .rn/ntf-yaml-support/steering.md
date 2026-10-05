@@ -163,12 +163,12 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 **Steps**:
 
-- [ ] `mvn clean test` が BUILD SUCCESS になることを確認する
-- [ ] テストログで YamlTestDataParser が実際に使われていることを確認する
-- [ ] self-check (OK/NG per completion criterion, record in checks/task-5.md)
-- [ ] QA expert review (Agent: general-purpose / Opus 4.8)
-- [ ] language expert review (Agent: general-purpose / Opus 4.8)
-- [ ] software-engineering expert review (Agent: general-purpose / Opus 4.8)
+- [x] `mvn clean test` が BUILD SUCCESS になることを確認する（Tests run: 19, Failures: 0, Errors: 0, Skipped: 0）
+- [x] テストログで YamlTestDataParser が実際に使われていることを確認する（override/active ログ、.xls 読込0件）
+- [x] self-check (OK/NG per completion criterion, record in checks/task-5.md)
+- [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
+- [x] language expert review (Agent: general-purpose / Opus 4.8) — OK
+- [x] software-engineering expert review (Agent: general-purpose / Opus 4.8) — OK
 - [ ] user review
 
 **Completion criteria**:
@@ -182,9 +182,9 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 # State
 
-- **Status**: in progress
+- **Status**: 全タスク完了（user review 待ち）
 - **Date**: 2026-10-06
-- **Last completed**: Task #4（Excel 2件を削除、残存0件。self-check OK）。QA review・user review 待ち。
-- **Next**: Task #5（Excelなしで `mvn clean test` 全パス確認）
-- **重要**: 本PJのメッセージング電文は `file-type: Fixed` + 数値 length（403/20）でモデル化されており、姉妹PJ send の `length: "JSON"` ブロッカーとは異なる。Task #5 でスキーマ適合・全テストパスの見込み（実機確認は Task #5）。
+- **Last completed**: Task #5（Excelなしで `mvn clean test` → Tests run: 19 / BUILD SUCCESS。YamlTestDataParser 使用をログ確認。self-check OK、QA/Language/SW-eng 全 OK）。
+- **Next**: 全5タスクの実装・コミット・各レビュー完了。残りは各タスクの user review と、ユーザーによるリモートへの push。
+- **重要（成立）**: 本PJのメッセージング電文は `file-type: Fixed` + 数値 length（403/20、1フィールド JSON に本文全体格納）でモデル化されており YAMLスキーマに適合。姉妹PJ send の `length: "JSON"` ブロッカーは本PJ（受信側）では発生せず、全テストが YAML 経路でパスした。
 - **Notes**: ブランチ `ntf-yaml-support`（develop 起点）。JSONフォーマット電文のYAMLスキーマ非互換が Task #5 で顕在化する可能性あり（姉妹PJ send で既知）。
