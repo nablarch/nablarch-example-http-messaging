@@ -143,10 +143,10 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 **Steps**:
 
-- [ ] 変換対象となった Excel ファイルを削除する
-- [ ] 削除結果（残存Excelが0件であること）を `checks/task-4.md` に記録する（Excelなしでの `mvn clean test` 実行とその結果の確認は Task #5 で行う）
-- [ ] Excelファイル削除をコミットする
-- [ ] self-check (OK/NG per completion criterion, record in checks/task-4.md)
+- [x] 変換対象となった Excel ファイルを削除する（ProjectFormTest.xls / ProjectSaveActionRequestTest.xlsx の2件）
+- [x] 削除結果（残存Excelが0件であること）を `checks/task-4.md` に記録する（Excelなしでの `mvn clean test` 実行とその結果の確認は Task #5 で行う）
+- [x] Excelファイル削除をコミットする
+- [x] self-check (OK/NG per completion criterion, record in checks/task-4.md)
 - [ ] QA expert review (Agent: general-purpose / Opus 4.8)
 - [ ] user review
 
@@ -184,7 +184,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 - **Status**: in progress
 - **Date**: 2026-10-06
-- **Last completed**: Task #3（Excel 2件を YAML 7件に変換。POI独立ダンプとサンプリング比較し差異なし。self-check OK、QA OK）。user review 待ち。
-- **Next**: Task #4（Excelを削除する）
+- **Last completed**: Task #4（Excel 2件を削除、残存0件。self-check OK）。QA review・user review 待ち。
+- **Next**: Task #5（Excelなしで `mvn clean test` 全パス確認）
 - **重要**: 本PJのメッセージング電文は `file-type: Fixed` + 数値 length（403/20）でモデル化されており、姉妹PJ send の `length: "JSON"` ブロッカーとは異なる。Task #5 でスキーマ適合・全テストパスの見込み（実機確認は Task #5）。
 - **Notes**: ブランチ `ntf-yaml-support`（develop 起点）。JSONフォーマット電文のYAMLスキーマ非互換が Task #5 で顕在化する可能性あり（姉妹PJ send で既知）。
