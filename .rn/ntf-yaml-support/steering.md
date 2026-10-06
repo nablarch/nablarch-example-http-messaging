@@ -79,7 +79,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 - [x] 変更ファイル（check ファイルおよび更新した steering.md）をコミットする
 - [x] self-check (OK/NG per completion criterion, record in checks/task-1.md)
 - [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
-- [ ] user review
+- [x] user review（2026-10-06 承認）
 
 **Completion criteria**:
 
@@ -102,7 +102,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 - [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
 - [x] language expert review (Agent: general-purpose / Opus 4.8) — OK
 - [x] software-engineering expert review (Agent: general-purpose / Opus 4.8) — OK
-- [ ] user review
+- [x] user review（2026-10-06 承認）
 
 **Completion criteria**:
 
@@ -127,7 +127,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 - [x] 変換したYAMLファイルをコミットする（Excelはまだ削除しない）
 - [x] self-check (OK/NG per completion criterion, record in checks/task-3.md)
 - [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
-- [ ] user review
+- [x] user review（2026-10-06 承認）
 
 **Completion criteria**:
 
@@ -148,7 +148,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 - [x] Excelファイル削除をコミットする
 - [x] self-check (OK/NG per completion criterion, record in checks/task-4.md)
 - [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
-- [ ] user review
+- [x] user review（2026-10-06 承認）
 
 **Completion criteria**:
 
@@ -169,7 +169,7 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 - [x] QA expert review (Agent: general-purpose / Opus 4.8) — OK
 - [x] language expert review (Agent: general-purpose / Opus 4.8) — OK
 - [x] software-engineering expert review (Agent: general-purpose / Opus 4.8) — OK
-- [ ] user review
+- [x] user review（2026-10-06 承認）
 
 **Completion criteria**:
 
@@ -182,9 +182,9 @@ NTF（Nablarch Testing Framework）のAI対応として、AIが読み書きで�
 
 # State
 
-- **Status**: 全タスク完了（user review 待ち）
+- **Status**: 全タスク完了（user review 承認済み）
 - **Date**: 2026-10-06
-- **Last completed**: Task #5（Excelなしで `mvn clean test` → Tests run: 19 / BUILD SUCCESS。YamlTestDataParser 使用をログ確認。self-check OK、QA/Language/SW-eng 全 OK）。
-- **Next**: 全5タスクの実装・コミット・各レビュー完了。残りは各タスクの user review と、ユーザーによるリモートへの push。
+- **Last completed**: Task #5（Excelなしで `mvn clean test` → Tests run: 19 / BUILD SUCCESS。YamlTestDataParser 使用をログ確認。self-check OK、QA/Language/SW-eng 全 OK、user review 2026-10-06 承認）。
+- **Next**: 全5タスク完了（実装・コミット・各レビュー・user review すべて完了）。残りはユーザーによるリモートへの push のみ。
 - **重要（成立）**: 本PJのメッセージング電文は `file-type: Fixed` + 数値 length（403/20、1フィールド JSON に本文全体格納）でモデル化されており YAMLスキーマに適合。姉妹PJ send の `length: "JSON"` ブロッカーは本PJ（受信側）では発生せず、全テストが YAML 経路でパスした。
 - **Notes**: ブランチ `ntf-yaml-support`（develop 起点）。JSONフォーマット電文のYAMLスキーマ非互換が Task #5 で顕在化する可能性あり（姉妹PJ send で既知）。

@@ -41,6 +41,7 @@
 - Language expert: OK
 - Software-engineering expert: OK
 - Ready for user review: Yes
+- User review: 承認済み（2026-10-06）
 
 ## 備考
 
