@@ -28,7 +28,8 @@
 - **testDataParser 配置判定（Task #2）**: 受信側テストで、アクション `ProjectSaveAction` は `MessageSender` / `sendSync` を使用しない（`src/main/java` に該当なし）。diConfig 内の `MockMessagingClient` は呼ばれず、Excel にも `response_*`（同期送信の応答電文）は無い。さらにフレームワーク側でも、`MessagingRequestTestSupport` は setUp/expected メッセージを Main 起動前（unit-test.xml 有効時）に読み、diConfig による再初期化（`recreateRepository`）の後は finally の `revertDefaultRepository` で戻す。`MockMessagingClient` がテストデータを読むのは sendSync 時だけ（Task #2 QA/SE で確認）。よってアクション実行中に `testDataParser` 経由でテストデータを読む処理は無く、Rules の判定では「非該当」。配置先は `unit-test.xml` のみとする（本番用 `src/main/resources` には入れない）。
 
 ## Scripts
-- `scripts/ExcelDump.java`（Task #3 で作成予定）: converter の変換ロジックに依存せず、Apache POI で Excel 全セルを「シート/行/列/値」でダンプする独立ツール。変換後 YAML と原本 Excel のサンプリング比較に使用する。
+- `scripts/ExcelDump.java`（Task #3）: converter の変換ロジックに依存せず、Apache POI 3.8 で Excel 全セルを「シート/行/列/値」でダンプする独立ツール。変換後 YAML と原本 Excel のサンプリング比較に使用する（過去の移行作業 `f46e98e` から復元）。
+- `scripts/compare_excel_yaml.py`（Task #3）: ExcelDump の出力と YAML（PyYAML）をブロック単位で突き合わせ、全セルの一致判定とシートごとのサンプル出力を行う比較スクリプト。実行: `python3 -I compare_excel_yaml.py <dump.txt> <YAMLディレクトリ> [サンプル件数]`
 
 ## Tasks
 
@@ -78,13 +79,14 @@
 **Purpose**: converter で Excel を YAML に変換し、テストクラスと同じディレクトリ配下に配置して、サンプリングで内容一致を確認する。
 **Prerequisites**: #2
 **Steps**:
-- [ ] 対象 Excel の所在確認
-- [ ] 同名 `.xls` / `.xlsx` 併存確認
-- [ ] converter README の手順で全対象 Excel を YAML 変換
-- [ ] 各 YAML を Excel とサンプリング比較（各ファイル最低3件）
-- [ ] 結果を `checks/task-3.md` の Sampling Comparison に記録
-- [ ] YAML をコミット（Excel は削除しない）
-- [ ] self-check / QA expert review
+- [x] 対象 Excel の所在確認（`form/ProjectFormTest.xls`、`action/ProjectSaveActionRequestTest.xlsx` の2件）
+- [x] 同名 `.xls` / `.xlsx` 併存確認（併存なし）
+- [x] converter README の手順で全対象 Excel を YAML 変換（`Converted 2 file(s).`、WARN なし、7 YAML）
+- [x] 各 YAML を Excel とサンプリング比較（`scripts/ExcelDump.java` + `scripts/compare_excel_yaml.py` で全ブロック全件照合: 120 + 1168項目 mismatch 0。各ファイル3件以上をサンプル記録）
+- [x] 結果を `checks/task-3.md` の Sampling Comparison に記録（`"?"`→`?` の2件は QuotationTrimmer 相当で意味的に等価）
+- [x] YAML をコミット（Excel は削除しない）
+- [x] self-check — OK
+- [ ] QA expert review
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - 変換対象の全 Excel に対応する YAML が生成されている
@@ -117,6 +119,6 @@
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 実施中
+- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 実装・self-check 完了（QA レビュー中）
 - 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。
