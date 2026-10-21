@@ -25,7 +25,7 @@
   - `src/test/java/com/nablarch/example/form/ProjectFormTest.java`（`@EntityTest`）→ `ProjectFormTest.xls`
   - `src/test/java/com/nablarch/example/action/ProjectSaveActionRequestTest.java`（`@MessagingRequestTest`、HTTPメッセージング受信側のリクエスト単体テスト）→ `ProjectSaveActionRequestTest.xlsx`
 - テスト設定: `src/test/resources/unit-test.xml` が `http-messaging-test-component-configuration.xml`（アクション起動 diConfig、testShots の `diConfig` で指定）と `nablarch/test/test-data.xml` を import している。
-- **testDataParser 配置判定（Task #2）**: 受信側テストで、アクション `ProjectSaveAction` は `MessageSender` / `sendSync` を使用しない（`src/main/java` に該当なし）。diConfig 内の `MockMessagingClient` は呼ばれず、Excel にも `response_*`（同期送信の応答電文）は無い。よってアクション実行中に `testDataParser` 経由でテストデータを読む処理は無く、Rules の判定では「非該当」。配置先は `unit-test.xml` のみとする（本番用 `src/main/resources` には入れない）。
+- **testDataParser 配置判定（Task #2）**: 受信側テストで、アクション `ProjectSaveAction` は `MessageSender` / `sendSync` を使用しない（`src/main/java` に該当なし）。diConfig 内の `MockMessagingClient` は呼ばれず、Excel にも `response_*`（同期送信の応答電文）は無い。さらにフレームワーク側でも、`MessagingRequestTestSupport` は setUp/expected メッセージを Main 起動前（unit-test.xml 有効時）に読み、diConfig による再初期化（`recreateRepository`）の後は finally の `revertDefaultRepository` で戻す。`MockMessagingClient` がテストデータを読むのは sendSync 時だけ（Task #2 QA/SE で確認）。よってアクション実行中に `testDataParser` 経由でテストデータを読む処理は無く、Rules の判定では「非該当」。配置先は `unit-test.xml` のみとする（本番用 `src/main/resources` には入れない）。
 
 ## Scripts
 - `scripts/ExcelDump.java`（Task #3 で作成予定）: converter の変換ロジックに依存せず、Apache POI で Excel 全セルを「シート/行/列/値」でダンプする独立ツール。変換後 YAML と原本 Excel のサンプリング比較に使用する。
@@ -66,7 +66,7 @@
 - [x] `mvn validate` / `mvn dependency:resolve` / `mvn help:describe`（converter）で解決確認（いずれも BUILD SUCCESS、`convert` ゴール解決）
 - [x] 変更したファイルをコミット
 - [x] self-check — OK
-- [ ] QA / language / software-engineering expert review
+- [x] QA / language / software-engineering expert review — いずれも OK
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT` が test スコープで追加されている
@@ -117,6 +117,6 @@
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 完了（self-check / QA OK）、Task #2 実装・self-check 完了（エキスパートレビュー中）
+- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 実施中
 - 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。

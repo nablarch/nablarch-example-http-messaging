@@ -13,8 +13,8 @@
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| Meaningful tests/verification | | |
-| Edge case coverage | | |
+| Meaningful tests/verification | OK | self-check の検証（validate / resolve / describe / tree / interpreter 定義元）は4基準に直接対応し再現した。配置判定はアクション実装・Excel ブロック・フレームワークのライフサイクルの3方向から支持。改善提案: 判定根拠にフレームワーク側の (c)(d) を補足 → 本表 QA Evidence と steering.md に反映。Parser 差し替えの実効性は Task #5 のテストログで確認 |
+| Edge case coverage | OK | 同名コンポーネントの後勝ち上書き、dbInfo の先行定義、xls/xlsx 混在の converter 入力、interpreter の順序（`${systemTime}` が dateTimeInterpreter に届く）、EntityTest（ProjectFormTest）も unit-test.xml の対象、本番設定への非混入を確認。注意: 本コミット単体は Excel のみ＋YAML 専用 parser の中間状態でテストは通らない想定（testdata.rst「混在不可」の仕様どおり、Task #3〜#5 で解消） |
 
 ## Expert Reviews (code changes only)
 
@@ -22,22 +22,22 @@
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| Best practices | | |
-| Codebase style consistency | | |
-| GWT test format | | |
+| Best practices | OK | Maven: yaml は test scope・version 明示、converter は `<executions>` なしの plugin 直下 `<configuration>` で batch テンプレートと値・構造一致。DI: `testDataParser` は test-data.xml import・`dbInfo` 定義の後で後勝ち上書きと参照解決が成立、`dbInfo` ref、`testDataReader` なし、`interpreters` は `<list>` 直書きで testdata.rst の設定例と同一。`*-boot.xml` なし・応答電文なしで unit-test.xml 配置は妥当 |
+| Codebase style consistency | OK | 2スペースインデント・タブなし、依存前の空行、日本語 `<!-- -->` コメントと既存と整合。unit-test.xml のコメントは Rules の記載例と一字一句同じ。plugin 直前の説明コメントは既存 build-helper の書式と同形式（batch は無コメントだが補足として有益で許容） |
+| GWT test format | N/A | テストコード（.java）の変更なし |
 
 ### Software-engineering Expert
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| Separation of concerns | | |
-| System integrity | | |
-| Maintainability | | |
+| Separation of concerns | OK | `YamlTestDataParser` は `src/test/resources/unit-test.xml` のみ、`src/main/resources` 変更なし。yaml は test scope、converter は `<build><plugins>` のみで `<executions>` なし（テストクラスパス・ライフサイクルに乗らず CLI 実行時のみ動作） |
+| System integrity | OK | `MessagingRequestTestSupport#createMain` は `recreateRepository(diConfig)` で diConfig のみの構成にし、`MainForRequestTesting#handle` の finally で `revertDefaultRepository()`。setUp・検証（assertTables / assertMessages 等）は unit-test.xml の YAML parser で動作。diConfig 側の `MockMessagingClient` は sendSync 未使用のため呼ばれず、diConfig への追加不要（非該当判定は妥当） |
+| Maintainability | OK | version 明示2か所に「nablarch-bom 未登録のため」の理由コメントがあり、BOM 登録後は `<version>` 行の削除のみで済む。任意の改善提案（コメントを「正式リリース・BOM 登録後に version 削除」と明確化／`<properties>` で version を一元化）は、隣接PJ（web/batch）の記述との一貫性を優先して今回は見送り |
 
 ## Overall Verdict
 
 - Self-check: OK
-- QA:
-- Language expert:
-- Software-engineering expert:
-- Ready for user review:
+- QA: OK
+- Language expert: OK
+- Software-engineering expert: OK
+- Ready for user review: Yes
