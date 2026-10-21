@@ -86,7 +86,7 @@
 - [x] 結果を `checks/task-3.md` の Sampling Comparison に記録（`"?"`→`?` の2件は QuotationTrimmer 相当で意味的に等価）
 - [x] YAML をコミット（Excel は削除しない）
 - [x] self-check — OK
-- [ ] QA expert review
+- [x] QA expert review — OK（別手段で全1537項目照合、差異0）
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - 変換対象の全 Excel に対応する YAML が生成されている
@@ -119,6 +119,6 @@
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 実装・self-check 完了（QA レビュー中）
+- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 完了（self-check / QA OK）、Task #4 実施中
 - 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。

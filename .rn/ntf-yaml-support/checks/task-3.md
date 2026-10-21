@@ -4,9 +4,9 @@
 
 | Criterion | Self-check | Evidence | QA | QA Evidence |
 |---|---|---|---|---|
-| 変換対象の全 Excel に対応する YAML が生成されている | OK | 対象 Excel 2件（`form/ProjectFormTest.xls` 3シート、`action/ProjectSaveActionRequestTest.xlsx` 4シート）。`mvn com.nablarch.framework:nablarch-testing-converter:1.0.0-SNAPSHOT:convert` → `Converted 2 file(s).` / BUILD SUCCESS、WARN（重複カラム）なし。シート名＝YAML ファイル名で計7 YAML（`<テストクラス名>/` ディレクトリ配下）。シート数と YAML 数が一致し、欠落なし | | |
-| サンプリング比較で Excel と YAML の内容が一致している | OK | POI 独立ダンプ（`scripts/ExcelDump.java`）と PyYAML 読込（`scripts/compare_excel_yaml.py`）で LIST_MAP / SETUP_TABLE / EXPECTED_TABLE / MESSAGE の全ブロックを全件照合: ProjectSaveActionRequestTest 120項目・ProjectFormTest 1168項目、mismatch 0。各ファイル3件以上のサンプルは下記 Sampling Comparison | | |
-| YAML がコミットされている | OK | 7 YAML・scripts・steering.md・task-3.md を Task #3 コミットに含む。Excel 2件は未削除（Task #4 で削除） | | |
+| 変換対象の全 Excel に対応する YAML が生成されている | OK | 対象 Excel 2件（`form/ProjectFormTest.xls` 3シート、`action/ProjectSaveActionRequestTest.xlsx` 4シート）。`mvn com.nablarch.framework:nablarch-testing-converter:1.0.0-SNAPSHOT:convert` → `Converted 2 file(s).` / BUILD SUCCESS、WARN（重複カラム）なし。シート名＝YAML ファイル名で計7 YAML（`<テストクラス名>/` ディレクトリ配下）。シート数と YAML 数が一致し、欠落なし | OK | xls は HSSF、xlsx は `xl/workbook.xml` を zipfile で直接読みシート一覧を取得（3＋4シート）。7シートすべてに同名 YAML、欠落・余剰なし。拡張子を除き同名の .xls/.xlsx の組なし |
+| サンプリング比較で Excel と YAML の内容が一致している | OK | POI 独立ダンプ（`scripts/ExcelDump.java`）と PyYAML 読込（`scripts/compare_excel_yaml.py`）で LIST_MAP / SETUP_TABLE / EXPECTED_TABLE / MESSAGE の全ブロックを全件照合: ProjectSaveActionRequestTest 120項目・ProjectFormTest 1168項目、mismatch 0。各ファイル3件以上のサンプルは下記 Sampling Comparison | OK | self-check と別手段で全件照合: Excel は POI 3.8 HSSF 自作 Java（xls）／zipfile で sharedStrings・sheet XML 直接解析（xlsx）、YAML は実行時と同じ snakeyaml-engine 3.0.1（YAML 1.2）自作 Java。全7シート 1537項目で差異0（ブロック数・行数・キー順・全セル・MESSAGE の record_type / fields / 本文）。JSON 本文は全角含め完全一致、null 11セルは YAML でも null、空セルは `""`、`${...}` 原文一致、`"?"` 2件は読込値 `?` で QuotationTrimmer 後の Excel 値と同一。YAML 1.2 で文字列でないキー・値は0件（`no` も文字列） |
+| YAML がコミットされている | OK | 7 YAML・scripts・steering.md・task-3.md を Task #3 コミットに含む。Excel 2件は未削除（Task #4 で削除） | OK | `git show --name-status 98cffd0` で7 YAML が追加（A）。Excel 2件は削除されず追跡中。`src/` に未コミット変更なし |
 
 ### 使用スクリプト
 
@@ -19,7 +19,7 @@
 | YAML ファイル | 比較件数 | レコードキー/行 | Excel 値 | YAML 値 | 一致 |
 | --- | --- | --- | --- | --- | --- |
 | action/ProjectSaveActionRequestTest/setUpDb.yaml | 3（全件） | SETUP_TABLE=PROJECT / INDUSTRY / CLIENT | ヘッダのみ（データ行なし）×3 | `rows: []` ×3 | OK |
-| action/ProjectSaveActionRequestTest/testNormalEndExistAllFields.yaml | 3 | MESSAGE=setUpMessages row1 JSON（type/length） | 全半角 / 403、JSON本文（改行・インデント・全角含む14行） | `{name: "JSON", type: "全半角", length: "403"}`、本文完全一致 | OK |
+| action/ProjectSaveActionRequestTest/testNormalEndExistAllFields.yaml | 3 | MESSAGE=setUpMessages row1 JSON（type/length） | 全半角 / 403、JSON本文（改行14個・15行、インデント・全角含む） | `{name: "JSON", type: "全半角", length: "403"}`、本文完全一致 | OK |
 | 〃 | | MESSAGE=expectedMessages row1 JSON | `{"statusCode":"201"}` | `{"statusCode":"201"}` | OK |
 | 〃 | | EXPECTED_TABLE[1]=PROJECT row1 PROJECT_NAME / USER_ID | プロジェクト９９９ / `null` | プロジェクト９９９ / null | OK |
 | action/ProjectSaveActionRequestTest/testNormalEndOnlyRequireFields.yaml | 3 | MESSAGE=setUpMessages row1 JSON | 任意項目 null の JSON 本文 | 本文完全一致 | OK |
@@ -49,8 +49,8 @@
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| Meaningful tests/verification | | |
-| Edge case coverage | | |
+| Meaningful tests/verification | OK | 変換ツールに依存しない POI ダンプで全件照合し、初回 NG 9件は原因（PyYAML の `no`→False、複数行セル解析）を特定してスクリプトを修正・記録している。QA の別手段による全件照合でも差異0を再現。軽微な訂正（JSON 本文「14行」→「改行14個・15行」）→ 反映済み |
+| Edge case coverage | OK | 比較スクリプトの穴7点（(a) 空行でブロックを打ち切る (b) 全角引用符 `”` 未考慮 (c) LIST_MAP の `null` 未変換 (d) YAML 側のみのディレクティブ・ブロック・余分な field を未検出 (e) マーカー列判定が `[` 始まりのみ (f) 行途中の `//` 切り捨て未再現 (g) bool 以外の YAML 1.1 解釈が残る）はいずれも本データで非該当を確認。YAML のみの `file-type: "Fixed"`（6ブロック）は Excel 経路でも NTF が補う値で同義。`[No]` 列（10セル）は NTF のマーカー列で YAML に無いのが正しい。(a)(b)(d) は再利用時の改善点 → スクリプトに既知の制約として明記 |
 
 ## Expert Reviews (code changes only)
 
@@ -59,7 +59,7 @@ N/A — no code changes in this task.
 ## Overall Verdict
 
 - Self-check: OK
-- QA:
+- QA: OK
 - Language expert: N/A
 - Software-engineering expert: N/A
-- Ready for user review:
+- Ready for user review: Yes
