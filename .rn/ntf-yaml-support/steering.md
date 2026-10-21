@@ -49,7 +49,7 @@
 - [x] 変更ファイルをコミット
 - [x] self-check
 - [x] QA expert review (Agent: general-purpose / Opus) — OK
-- [ ] user review（全 task 完了後にまとめて実施）
+- [x] user review — OK（全 task まとめて 2026-10-21 承認）
 **Completion criteria**:
 - 既存の `ntf-yaml-support` ブランチ上で作業しており、コミット履歴が維持されている
 - ブランチの既存先端の上に、ワーキングツリー全体が `develop` と同一内容になる新規コミットが1つ積まれている
@@ -68,7 +68,7 @@
 - [x] 変更したファイルをコミット
 - [x] self-check — OK
 - [x] QA / language / software-engineering expert review — いずれも OK
-- [ ] user review（全 task 完了後にまとめて実施）
+- [x] user review — OK（全 task まとめて 2026-10-21 承認）
 **Completion criteria**:
 - `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT` が test スコープで追加されている
 - `pom.xml` の `<build><plugins>` に `nablarch-testing-converter:1.0.0-SNAPSHOT` がビルドプラグインとして追加されている
@@ -87,7 +87,7 @@
 - [x] YAML をコミット（Excel は削除しない）
 - [x] self-check — OK
 - [x] QA expert review — OK（別手段で全1537項目照合、差異0）
-- [ ] user review（全 task 完了後にまとめて実施）
+- [x] user review — OK（全 task まとめて 2026-10-21 承認）
 **Completion criteria**:
 - 変換対象の全 Excel に対応する YAML が生成されている
 - サンプリング比較で Excel と YAML の内容が一致している
@@ -102,7 +102,7 @@
 - [x] 削除をコミット
 - [x] self-check — OK
 - [x] QA expert review — OK
-- [ ] user review（全 task 完了後にまとめて実施）
+- [x] user review — OK（全 task まとめて 2026-10-21 承認）
 **Completion criteria**:
 - 変換対象だった全 Excel が削除されている
 - 削除がコミットされている
@@ -115,13 +115,13 @@
 - [x] テストログで YamlTestDataParser の使用を確認（testDataParser 上書き WARN・YamlTestDataParser INFO、`PoiXlsReader` / `.xls` 読込0件）
 - [x] self-check — OK
 - [x] QA / language / software-engineering expert review — いずれも OK（QA は YAML の期待値を変異させて FAIL になることも確認）
-- [ ] user review（全 task 完了後にまとめて実施）
+- [x] user review — OK（全 task まとめて 2026-10-21 承認）
 **Completion criteria**:
 - `mvn clean test` が BUILD SUCCESS（全テストパス、Excel なし）
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: 全5タスク完了（実装・コミット・self-check・各エキスパートレビューはすべて OK）。user review 待ち（まとめて実施）
+- Status: 全5タスク完了（実装・コミット・self-check・各エキスパートレビュー・user review すべて OK。user review は 2026-10-21 に全 task まとめて承認）。残りはユーザーによる push のみ
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施分はベースライン `3b4a150` の上に積んだ
 - 結果: Excel 2件（7シート）→ YAML 7件。Excel なしで `mvn clean test` 19件 BUILD SUCCESS（ベースラインと同数）
 - 注意: 未追跡の `.idea/` はコミットしない。push はユーザーが実施する
