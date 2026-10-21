@@ -22,7 +22,7 @@
 
 | Aspect | Verdict | Evidence / Improvement |
 |---|---|---|
-| Best practices | OK | Maven: yaml は test scope・version 明示、converter は `<executions>` なしの plugin 直下 `<configuration>` で batch テンプレートと値・構造一致。DI: `testDataParser` は test-data.xml import・`dbInfo` 定義の後で後勝ち上書きと参照解決が成立、`dbInfo` ref、`testDataReader` なし、`interpreters` は `<list>` 直書きで testdata.rst の設定例と同一。`*-boot.xml` なし・応答電文なしで unit-test.xml 配置は妥当 |
+| Best practices | OK | Maven: yaml は test scope・version 明示、converter は `<executions>` なしの plugin 直下 `<configuration>` で batch テンプレートと値・構造一致。DI: `testDataParser` は test-data.xml import・`dbInfo` 定義の後で後勝ち上書きと参照解決が成立、`dbInfo` ref、`testDataReader` なし、`interpreters` は `<list>` 直書きで testdata.rst の設定例と同一。テスト用 `src/test/resources` に `*-boot.xml` はなく（本番用 `src/main/resources/http-messaging-boot.xml` はテストの diConfig として未使用）、応答電文もないため unit-test.xml 配置は妥当 |
 | Codebase style consistency | OK | 2スペースインデント・タブなし、依存前の空行、日本語 `<!-- -->` コメントと既存と整合。unit-test.xml のコメントは Rules の記載例と一字一句同じ。plugin 直前の説明コメントは既存 build-helper の書式と同形式（batch は無コメントだが補足として有益で許容） |
 | GWT test format | N/A | テストコード（.java）の変更なし |
 
