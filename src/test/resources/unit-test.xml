@@ -16,6 +16,17 @@
     <property name="schema" value="PUBLIC"/>
   </component>
 
+  <!-- YamlTestDataParser でtestDataParserを上書き -->
+  <component name="testDataParser" class="nablarch.test.core.reader.YamlTestDataParser">
+    <property name="dbInfo" ref="dbInfo"/>
+    <property name="interpreters">
+      <list>
+        <component-ref name="dateTimeInterpreter"/>
+        <component-ref name="compositeInterpreter"/>
+      </list>
+    </property>
+  </component>
+
   <!-- エンティティテスト設定 -->
   <component name="entityTestConfiguration" class="nablarch.test.core.entity.EntityTestConfiguration">
     <property name="maxMessageId" value="{nablarch.core.validation.ee.Length.max.message}"/>

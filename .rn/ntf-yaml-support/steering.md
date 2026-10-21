@@ -59,13 +59,14 @@
 **Purpose**: `pom.xml` に `nablarch-testing-yaml`（test 依存）と `nablarch-testing-converter`（ビルドプラグイン）を追加し、`unit-test.xml` に `YamlTestDataParser`（testdata.html の設定例どおり）を追加する。
 **Prerequisites**: #1
 **Steps**:
-- [ ] `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT`（test scope）を追加
-- [ ] `pom.xml` の `<build><plugins>` に `nablarch-testing-converter:1.0.0-SNAPSHOT` を追加（`<configuration>` に from/to/input/output/overwrite）
-- [ ] testDataParser 配置判定（上記「対象・構成メモ」：非該当 → `unit-test.xml`）
-- [ ] `unit-test.xml` に `YamlTestDataParser` を追加（`interpreters` 内 `<list>` に `dateTimeInterpreter` → `compositeInterpreter` の2つのみ、`dbInfo` 定義より後）
-- [ ] `mvn validate` / `mvn dependency:resolve` / `mvn help:describe`（converter）で解決確認
-- [ ] 変更したファイルをコミット
-- [ ] self-check / QA / language / software-engineering expert review
+- [x] `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT`（test scope）を追加
+- [x] `pom.xml` の `<build><plugins>` に `nablarch-testing-converter:1.0.0-SNAPSHOT` を追加（`<configuration>` に from/to/input/output/overwrite）
+- [x] testDataParser 配置判定（上記「対象・構成メモ」：非該当 → `unit-test.xml`）
+- [x] `unit-test.xml` に `YamlTestDataParser` を追加（`interpreters` 内 `<list>` に `dateTimeInterpreter` → `compositeInterpreter` の2つのみ、`dbInfo` 定義より後）
+- [x] `mvn validate` / `mvn dependency:resolve` / `mvn help:describe`（converter）で解決確認（いずれも BUILD SUCCESS、`convert` ゴール解決）
+- [x] 変更したファイルをコミット
+- [x] self-check — OK
+- [ ] QA / language / software-engineering expert review
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - `pom.xml` に `nablarch-testing-yaml:1.0.0-SNAPSHOT` が test スコープで追加されている
@@ -116,6 +117,6 @@
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 完了（self-check / QA OK）、Task #2 実施中
+- Status: Task #1 完了（self-check / QA OK）、Task #2 実装・self-check 完了（エキスパートレビュー中）
 - 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。
