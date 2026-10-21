@@ -101,7 +101,7 @@
 - [x] 残存 Excel 0件を `checks/task-4.md` に記録（作業ツリー・`git ls-files` とも0件）
 - [x] 削除をコミット
 - [x] self-check — OK
-- [ ] QA expert review
+- [x] QA expert review — OK
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - 変換対象だった全 Excel が削除されている
@@ -120,6 +120,6 @@
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 完了（self-check / QA OK）、Task #4 実装・self-check 完了（QA レビュー中）
+- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 完了（self-check / QA OK）、Task #4 完了（self-check / QA OK）、Task #5 実施中
 - 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。
