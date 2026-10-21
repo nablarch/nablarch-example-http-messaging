@@ -111,15 +111,16 @@
 **Purpose**: Excel なしで全テストがパスすることを確認する。
 **Prerequisites**: #4
 **Steps**:
-- [ ] `mvn clean test` が BUILD SUCCESS
-- [ ] テストログで YamlTestDataParser の使用を確認
-- [ ] self-check / QA / language / software-engineering expert review
+- [x] `mvn clean test` が BUILD SUCCESS（Excel なし、Tests run: 19, Failures 0, Errors 0）
+- [x] テストログで YamlTestDataParser の使用を確認（testDataParser 上書き WARN・YamlTestDataParser INFO、`PoiXlsReader` / `.xls` 読込0件）
+- [x] self-check — OK
+- [ ] QA / language / software-engineering expert review
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - `mvn clean test` が BUILD SUCCESS（全テストパス、Excel なし）
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 完了（self-check / QA OK）、Task #4 完了（self-check / QA OK）、Task #5 実施中
+- Status: Task #1 完了（self-check / QA OK）、Task #2 完了（self-check / QA / Language / SE すべて OK）、Task #3 完了（self-check / QA OK）、Task #4 完了（self-check / QA OK）、Task #5 実施・self-check 完了（エキスパートレビュー中）
 - 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。
