@@ -12,7 +12,7 @@
 - 指示書: `.rn/ntf-yaml-support/ntf-yaml-support-instructions_http-messaging_V1.6.md`（原本: `/home/k10949/instructions/ntf-yaml-support-instructions_http-messaging_V1.6.md`）
 
 ## Build / Test
-- 環境: JDK（README 前提は Java 17。実行環境は OpenJDK 21.0.2）、Maven 3.9.16、H2 組み込み（DBサーバ不要）
+- 環境: JDK 17（README 前提。Maven 実行 JDK は Temurin 17.0.20。※PATH 上の `java` は 21.0.2 だが Maven は 17 で動作）、Maven 3.9.16、H2 組み込み（DBサーバ不要）
 - README（`mvn jetty:run` / `mvn generate-resources` / `mvn compile` を案内）を確認。`gsp` 専用プロファイルは無く、`gsp-dba-maven-plugin`（DDL生成/実行・エンティティ生成・データロード）は `generate-sources` フェーズに無条件バインドされている。そのため `generate-resources` を個別に実行する必要はなく、`mvn clean test` だけで DB セットアップ・エンティティ生成からテストまで一括実行できる。
 - **テストコマンド**: `LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 mvn clean test`
   - ロケール指定は必須（`C.UTF-8` 等だと NTF のメッセージ解決に失敗する）
@@ -47,7 +47,7 @@
 - [x] 結果を `checks/task-1.md` に記録
 - [x] 変更ファイルをコミット
 - [x] self-check
-- [ ] QA expert review (Agent: general-purpose / Opus)
+- [x] QA expert review (Agent: general-purpose / Opus) — OK
 - [ ] user review（全 task 完了後にまとめて実施）
 **Completion criteria**:
 - 既存の `ntf-yaml-support` ブランチ上で作業しており、コミット履歴が維持されている
@@ -116,5 +116,6 @@
 - テストログで YamlTestDataParser が実際に使われていることが確認できる
 
 ## State
-- Status: Task #1 実施中
+- Status: Task #1 完了（self-check / QA OK）、Task #2 実施中
+- 注意: 未追跡 `.idea/` はコミットしない
 - 過去の移行コミット（`8f14d70`〜`f46e98e`）は履歴に維持。再実施はベースライン `3b4a150` の上に積む。
