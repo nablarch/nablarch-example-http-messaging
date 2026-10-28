@@ -1,0 +1,57 @@
+list_maps:
+  - id: "testShots"
+    rows:
+      - no: "1"
+        description: "バリデーションエラーが発生し、DBにプロジェクトが登録されないこと。"
+        expectedStatusCode: ""
+        setUpTable: "1"
+        expectedTable: "1"
+        setUpFile: ""
+        expectedLog: ""
+        diConfig: "classpath:http-messaging-test-component-configuration.xml"
+        requestPath: "/ProjectSaveAction"
+        userId: "100"
+
+messages:
+  - id: "setUpMessages"
+    directives:
+      file-type: "Fixed"
+      text-encoding: "UTF-8"
+    records:
+      - record_type: "no"
+        fields:
+          - {name: "JSON", type: "全半角", length: "403"}
+        rows:
+          - ["{\n    \"projectName\": \"\",\n    \"projectType\": \"\",\n    \"projectClass\":\
+  \ \"\",\n    \"projectManager\": \"山田\",\n    \"projectLeader\": \"田中\",\n    \"\
+  clientId\": 1,\n    \"projectStartDate\": \"20160101\",\n    \"projectEndDate\"\
+  : \"20161231\",\n    \"note\": \"備考９９９\",\n    \"sales\": 10000,\n    \"costOfGoodsSold\"\
+  : 20000,\n    \"sga\": 30000,\n    \"allocationOfCorpExpenses\": 40000\n}"]
+  - id: "expectedMessages"
+    directives:
+      file-type: "Fixed"
+      text-encoding: "UTF-8"
+    records:
+      - record_type: "no"
+        fields:
+          - {name: "JSON", type: "全半角", length: "20"}
+        rows:
+          - ["{\"statusCode\":\"400\"}"]
+
+setup_tables:
+  - group_id: "1"
+    table: "INDUSTRY"
+    rows:
+      - INDUSTRY_CODE: "01"
+        INDUSTRY_NAME: "農業"
+  - group_id: "1"
+    table: "CLIENT"
+    rows:
+      - CLIENT_ID: "1"
+        CLIENT_NAME: "テスト顧客名"
+        INDUSTRY_CODE: "01"
+
+expected_tables:
+  - group_id: "1"
+    table: "PROJECT"
+    rows: []
